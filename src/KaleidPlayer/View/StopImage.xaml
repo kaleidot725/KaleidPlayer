@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="kaleidot725.View.StopImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:kaleidot725.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="Transparent">
+        <Path Data="M-0.68649886,0 L298.813,-0.5 299.49999,298.127 0.18600143,298.127" Fill="White" HorizontalAlignment="Left" Margin="-0.686,-0.5,-0.5,0" Stretch="Fill" Stroke="White" VerticalAlignment="Top"/>
+    </Grid>
+</UserControl>

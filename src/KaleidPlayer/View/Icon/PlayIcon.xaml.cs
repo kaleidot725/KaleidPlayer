@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace kaleidot725.View
+namespace kaleidot725.ViewModel
 {
     /// <summary>
-    /// StopImage.xaml の相互作用ロジック
+    /// PlayImage2.xaml の相互作用ロジック
     /// </summary>
-    public partial class StopImage : UserControl
+    public partial class PlayImage : UserControl
     {
-        public StopImage()
+        public PlayImage()
         {
             InitializeComponent();
         }

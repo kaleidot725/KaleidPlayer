@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace kaleidot725.View
+namespace kaleidot725.ViewModel
 {
     /// <summary>
-    /// PlayImage2.xaml の相互作用ロジック
+    /// RightArrowImage.xaml の相互作用ロジック
     /// </summary>
-    public partial class PlayImage : UserControl
+    public partial class RightArrowImage : UserControl
     {
-        public PlayImage()
+        public RightArrowImage()
         {
             InitializeComponent();
         }

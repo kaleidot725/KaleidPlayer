@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="kaleidot725.View.PlayImage"
+﻿<UserControl x:Class="kaleidot725.ViewModel.PlayImage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:kaleidot725.View"
+             xmlns:local="clr-namespace:kaleidot725.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="Transparent">
-        <Path Data="M59.500006,28.499562 L237.00733,139.72592 59.796843,247.68456" Margin="0,0,0,-1.5" Stretch="Fill" Stroke="White" Fill="White"/>
-    </Grid>
+    <Viewbox>
+        <Canvas Width="24" Height="24">
+            <Path Data="M8,5.14V19.14L19,12.14L8,5.14Z" Fill="White" />
+        </Canvas>
+    </Viewbox>
 </UserControl>

@@ -130,20 +130,26 @@
     <Compile Include="Model\Library\TrackSearcher.cs" />
     <Compile Include="Model\Track\AudioMp3Detail.cs" />
     <Compile Include="Model\Player\AudioPlayer.cs" />
+    <Compile Include="Model\Track\AudioNullDetail.cs" />
+    <Compile Include="ViewModel\Converter\TitleConverter.cs" />
     <Compile Include="View\AlbumTab.xaml.cs">
       <DependentUpon>AlbumTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ArtistTab.xaml.cs">
       <DependentUpon>ArtistTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LeftArrowImage.xaml.cs">
-      <DependentUpon>LeftArrowImage.xaml</DependentUpon>
+    <Compile Include="View\Icon\BackwardIcon.xaml.cs">
+      <DependentUpon>BackwardIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlayImage.xaml.cs">
-      <DependentUpon>PlayImage.xaml</DependentUpon>
+    <Compile Include="ViewModel\Converter\TimeConverter.cs" />
+    <Compile Include="View\Icon\PlayIcon.xaml.cs">
+      <DependentUpon>PlayIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RightArrowImage.xaml.cs">
-      <DependentUpon>RightArrowImage.xaml</DependentUpon>
+    <Compile Include="View\Icon\RepeatIcon.xaml.cs">
+      <DependentUpon>RepeatIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\NextIcon.xaml.cs">
+      <DependentUpon>NextIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingTab.xaml.cs">
       <DependentUpon>SettingTab.xaml</DependentUpon>
@@ -151,8 +157,8 @@
     <Compile Include="View\SongTab.xaml.cs">
       <DependentUpon>SongTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StopImage.xaml.cs">
-      <DependentUpon>StopImage.xaml</DependentUpon>
+    <Compile Include="View\Icon\StopIcon.xaml.cs">
+      <DependentUpon>StopIcon.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -180,15 +186,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\LeftArrowImage.xaml">
+    <Page Include="View\Icon\BackwardIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PlayImage.xaml">
+    <Page Include="View\Icon\PlayIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RightArrowImage.xaml">
+    <Page Include="View\Icon\RepeatIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\NextIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,7 +210,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\StopImage.xaml">
+    <Page Include="View\Icon\StopIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

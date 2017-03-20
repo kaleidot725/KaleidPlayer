@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace kaleidot725.View
+namespace kaleidot725.ViewModel
 {
     /// <summary>
-    /// RightArrowImage.xaml の相互作用ロジック
+    /// RepeatIcon.xaml の相互作用ロジック
     /// </summary>
-    public partial class RightArrowImage : UserControl
+    public partial class RepeatIcon : UserControl
     {
-        public RightArrowImage()
+        public RepeatIcon()
         {
             InitializeComponent();
         }

@@ -119,6 +119,7 @@ namespace kaleidot725.ViewModel
             _songsSearcher = new TrackSearcher();
             _artistSearcher = new ArtistSearcher();
             _albumSearcher = new AlbumSearcher();
+            _nowPlayMusic = new AudioNullDetail();
 
             // コマンド作成
             this.PlayCommand = new DelegateCommand(Play);
@@ -198,6 +199,8 @@ namespace kaleidot725.ViewModel
             {
                 _audioPlayer = new AudioPlayer();
                 _audioPlayer.Play(SelectedMusic.FilePath);
+
+                NowPlayMusic = SelectedMusic;
                 IsPlay = true;
             }
             catch (System.IO.FileNotFoundException e)

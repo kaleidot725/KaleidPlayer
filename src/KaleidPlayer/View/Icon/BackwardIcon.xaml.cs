@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace kaleidot725.View
+namespace kaleidot725.ViewModel
 {
     /// <summary>
     /// LeftArrowImage.xaml の相互作用ロジック

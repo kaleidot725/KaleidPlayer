@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace kaleidot725.ViewModel
 {
     /// <summary>
-    /// AlbumList.xaml の相互作用ロジック
+    /// StopImage.xaml の相互作用ロジック
     /// </summary>
-    public partial class AlbumTab : UserControl
+    public partial class StopImage : UserControl
     {
-        public AlbumTab()
+        public StopImage()
         {
             InitializeComponent();
         }

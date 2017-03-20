@@ -1,11 +1,14 @@
-﻿<UserControl x:Class="kaleidot725.ViewModel.SettingTab"
+﻿<UserControl x:Class="kaleidot725.ViewModel.RightArrowImage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:kaleidot725.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-    </StackPanel>
+             d:DesignHeight="320" d:DesignWidth="320">
+    <Viewbox>
+        <Canvas Width="24" Height="24">
+            <Path Data="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" Fill="White" />
+        </Canvas>
+    </Viewbox>
 </UserControl>

@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kaleidot725.ViewModel"
+        xmlns:conv="clr-namespace:kaleidot725.ViewModel.Converter"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
-        xmlns:view="clr-namespace:kaleidot725.View"
+        xmlns:view="clr-namespace:kaleidot725.ViewModel"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
@@ -19,11 +20,15 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         Title="KaleidPlayer" Height="550" Width="350">
-    
+
     <Window.DataContext>
         <local:AudioPlayerViewModel/>
     </Window.DataContext>
 
+    <Window.Resources>
+        <conv:TimeConverter x:Key="TimeConv"/>
+        <conv:TitleConverter x:Key="TitleConv"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="160*"/>
@@ -55,15 +60,15 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
             <Slider x:Name="TimeSlider"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="1"
                     Grid.Row="1"
                     Grid.RowSpan="1"
                     Margin="5,0,5,0"
@@ -74,25 +79,50 @@
                     Minimum="0"
                     Maximum="{Binding SeekMax, Mode=TwoWay}" >
             </Slider>
-            <TextBlock 
-                       Text="{Binding CurrentTime}"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="1"
+
+            <Grid Grid.Column="0"
+                  Grid.ColumnSpan="1"
+                  Margin="5,0,5,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock 
+                    Text="{Binding NowPlayMusic, Converter={StaticResource TitleConv}}"
+                    Background="Transparent"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1"/>
+                <TextBlock 
+                       Text="{Binding CurrentTime, Converter={StaticResource TimeConv}}"
                        Background="Transparent"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding TotalTime}"
+                       HorizontalAlignment="Center" 
                        Grid.Column="1"
-                       Grid.ColumnSpan="1"
+                       Grid.ColumnSpan="1"/>
+                <TextBlock
+                       Text="/"
+                    Background="Transparent"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="1"/>
+                <TextBlock Text="{Binding TotalTime, Converter={StaticResource TimeConv}}"
                        Background="Transparent"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-            
-            <Button Grid.Column="2"
+                       HorizontalAlignment="Center"
+                           Grid.Column="3"
+                    Grid.ColumnSpan="1"/>
+            </Grid>
+
+
+            <Button Grid.Column="1"
                     Grid.ColumnSpan="1"
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    Margin="15,15,15,15"
                     Background="Transparent" 
                     Foreground="Transparent"
                     BorderBrush="Transparent">
@@ -112,12 +142,11 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Grid.Column="3" 
+            <Button Grid.Column="2" 
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Command="{Binding ReplayCommand}" 
-                    Margin="15,15,15,15"
                     Background="Transparent" 
                     Foreground="Transparent" 
                     BorderBrush="Transparent">
@@ -128,8 +157,8 @@
                                 <ControlTemplate TargetType="Button">
                                     <Border>
                                         <Grid>
-                                            <view:PlayImage x:Name="PlayImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             <view:StopImage x:Name="StopImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <view:PlayImage x:Name="PlayImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Grid>
                                     </Border>
                                     <ControlTemplate.Triggers>
@@ -148,14 +177,12 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Grid.Column="4" 
+            <Button Grid.Column="3" 
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    Margin="15,15,15,15"
                     Background="Transparent" 
-                    Foreground="Transparent" 
-                    BorderBrush="Beige">
+                    Foreground="Transparent" >
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">
@@ -164,6 +191,28 @@
                                     <Border>
                                         <Grid>
                                             <view:RightArrowImage />
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Grid.Column="4" 
+                    Grid.ColumnSpan="1" 
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Background="Transparent" 
+                    Foreground="Transparent" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border>
+                                        <Grid>
+                                            <view:RepeatIcon />
                                         </Grid>
                                     </Border>
                                 </ControlTemplate>

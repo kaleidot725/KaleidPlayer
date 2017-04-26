@@ -8,7 +8,7 @@ using NAudio.Wave;
 
 namespace kaleidot725.Model
 {
-    class AudioWaveDetail : AudioDetailBase
+    public class AudioWaveDetail : AudioDetailBase
     {
         #region 定数定義
         /// <summary>

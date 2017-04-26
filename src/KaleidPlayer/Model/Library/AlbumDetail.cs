@@ -9,13 +9,16 @@ using kaleidot725.Model;
 
 namespace kaleidot725.Model.Library
 {
-    class AlbumDetail : BindableBase
+    /// <summary>
+    /// アルバム詳細
+    /// </summary>
+    public class AlbumDetail : BindableBase
     {
         private string _name;
-        private ObservableCollection<AudioDetailBase> _songs;
+        private ObservableCollection<AudioDetailBase> audios;
 
         /// <summary>
-        /// 
+        /// 名前
         /// </summary>
         public string Name
         {
@@ -24,47 +27,47 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// 
+        /// クアント
         /// </summary>
-        public ObservableCollection<AudioDetailBase> Songs
+        public int Count
         {
-            get { return _songs; }
-            private set { SetProperty(ref _songs, value); }
+            get { return audios.Count; }
         }
 
         /// <summary>
-        /// 
+        /// 曲情報
         /// </summary>
-        public int SongCount
+        public ObservableCollection<AudioDetailBase> Audios
         {
-            get { return _songs.Count; }
+            get { return audios; }
+            private set { SetProperty(ref audios, value); }
         }
 
         /// <summary>
-        /// 
+        /// コンストラクタ
         /// </summary>
         /// <param name="name"></param>
         public AlbumDetail(AudioDetailBase detail)
         {
             Name = detail.Album;
-            Songs = new ObservableCollection<AudioDetailBase>();
+            Audios = new ObservableCollection<AudioDetailBase>();
         }
 
         /// <summary>
-        /// 
+        /// 追加
         /// </summary>
-        /// <param name="songDetail"></param>
-        public void AddSong(AudioDetailBase songDetail)
+        /// <param name="audio"></param>
+        public void AddAudio(AudioDetailBase audio)
         {
-            Songs.Add(songDetail);
+            Audios.Add(audio);
         }
 
         /// <summary>
-        /// 
+        /// 削除
         /// </summary>
-        public void ClearSongs()
+        public void ClearAudio()
         {
-            Songs.Clear();
+            Audios.Clear();
         }
     }
 }

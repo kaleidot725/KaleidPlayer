@@ -8,7 +8,7 @@ using NAudio.Flac;
 
 namespace kaleidot725.Model
 {
-    class AudioFlacDetail : AudioDetailBase
+    public class AudioFlacDetail : AudioDetailBase
     {
         private const string FLAC_MARKER_STRING = "fLaC";
 

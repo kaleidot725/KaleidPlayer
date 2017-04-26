@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace kaleidot725.Model
 {
-    class VorbisComment
+    public class VorbisComment
     {
         private const char SPLIT_CHARACTER = '=';
         private const string FIELD_NAME_TITLE = "TITLE";

@@ -9,7 +9,7 @@ namespace kaleidot725.Model
     /// <summary>
     /// オーディオタイプ
     /// </summary>
-    static class AudioType
+    public static class AudioType
     {
         #region private
         private const string ExtensionWave = ".wav";      // WAVE拡張子

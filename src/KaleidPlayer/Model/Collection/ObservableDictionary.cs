@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace kaleidot725.Collection
 {
-    class ObservableDictionary<TKey, TValue> : CollectionBasedDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
+    public class ObservableDictionary<TKey, TValue> : CollectionBasedDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
         protected virtual event PropertyChangedEventHandler PropertyChanged;

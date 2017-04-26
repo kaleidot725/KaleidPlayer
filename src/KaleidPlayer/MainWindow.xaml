@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kaleidot725.ViewModel"
+        xmlns:view="clr-namespace:kaleidot725.View"
         xmlns:conv="clr-namespace:kaleidot725.ViewModel.Converter"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
-        xmlns:view="clr-namespace:kaleidot725.ViewModel"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
@@ -19,7 +19,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="KaleidPlayer" Height="550" Width="350">
+        Title="KaleidPlayer" Height="520" Width="350">
 
     <Window.DataContext>
         <local:AudioPlayerViewModel/>
@@ -31,7 +31,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="160*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
@@ -40,13 +40,13 @@
                 <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>
             <TabItem Header="Artist">
-                <view:ArtistTab DataContext="{Binding}"/>
+                <view:ArtistTab/>
             </TabItem>
             <TabItem Header="Album">
-                <view:AlbumTab DataContext="{Binding}"/>
+                <view:AlbumTab/>
             </TabItem>
             <TabItem Header="Track">
-                <view:SongTab DataContext="{Binding}"/>
+                <view:SongTab/>
             </TabItem>
             <TabItem Header="Playing">
                 <view:SettingTab />

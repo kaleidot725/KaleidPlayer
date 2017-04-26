@@ -17,6 +17,7 @@ namespace kaleidot725.Model
     /// </summary>
     public class AudioPlayer : BindableBase, IDisposable
     {
+        private AudioDetailBase _currentAudio;
         private WaveStream _audioStream;
         private WaveChannel32 _volumeStream;
         private IWavePlayer _waveOut;
@@ -41,19 +42,20 @@ namespace kaleidot725.Model
         /// <summary>
         /// プレイ
         /// </summary>
-        public void Play(string fileName)
+        public void Play(AudioDetailBase audio)
         {
             if (_audioStream != null || _waveOut != null)
             {
                 this.Dispose();
             }
 
-            if (File.Exists(fileName) != true)
+            if (File.Exists(audio.FilePath) != true)
             {
-                throw new FileNotFoundException(fileName);
+                throw new FileNotFoundException(audio.FilePath);
             }
 
-            this.InitializeStream(fileName);
+            this._currentAudio = audio;
+            this.InitializeStream(_currentAudio.FilePath);
             this._waveOut.Play();
         }
 
@@ -156,8 +158,15 @@ namespace kaleidot725.Model
         /// </summary>
         public void Dispose()
         {
-            _audioStream.Dispose();
-            _waveOut.Dispose();
+            if (_audioStream != null)
+            {
+                _audioStream.Dispose();
+            }
+
+            if (_waveOut != null)
+            {
+                _waveOut.Dispose();
+            }
         }
 
         /// <summary>

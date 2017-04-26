@@ -20,9 +20,6 @@ namespace kaleidot725.ViewModel
         public DelegateCommand PlayCommand { get; }
         public DelegateCommand ReplayCommand { get; }
         public DelegateCommand SeekCommand { get; }
-        public ReactiveProperty<ObservableCollection<AudioDetailBase>> Songs { get; private set; }
-        public ReactiveProperty<ObservableCollection<ArtistDetail>> Artists { get; private set; }
-        public ReactiveProperty<ObservableCollection<AlbumDetail>> Albums { get; private set; }
 
         /// <summary>
         /// ファイル名
@@ -105,43 +102,41 @@ namespace kaleidot725.ViewModel
         }
 
         private AudioPlayer _audioPlayer;
-        private TrackSearcher _songsSearcher;
-        private ArtistSearcher _artistSearcher;
-        private AlbumSearcher _albumSearcher;
+        private AudioSearcher _songsSearcher;
+        private ArtistList _artistList;
+        private AlbumList _albumList;
+
+        private IObservable<long> _timer;
+        private IDisposable _subscription;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public AudioPlayerViewModel()
         {
-            // 初期化
+            // 再生状態
             _isPlay = false;
-            _songsSearcher = new TrackSearcher();
-            _artistSearcher = new ArtistSearcher();
-            _albumSearcher = new AlbumSearcher();
             _nowPlayMusic = new AudioNullDetail();
+            _timer = Observable.Interval(TimeSpan.FromMilliseconds(10));
+            _subscription = _timer.Subscribe(i => UpdateTime(),
+               ex => Console.WriteLine("OnError({0})", ex.Message),
+               () => Console.WriteLine("Completed()"));
+
+            // ライブラリ群
+            _audioPlayer = SingletonModels.GetAudioPlayerInstance();
+            _songsSearcher = SingletonModels.GetAudioSearcherInstance();
+            _artistList = SingletonModels.GetArtistListInstance();
+            _albumList = SingletonModels.GetAlbumListInstance();
 
             // コマンド作成
             this.PlayCommand = new DelegateCommand(Play);
             this.ReplayCommand = new DelegateCommand(Replay);
             this.SeekCommand = new DelegateCommand(Seek);
 
-            Songs = _songsSearcher.ToReactivePropertyAsSynchronized(m => m.Songs).ToReactiveProperty();
-            Artists = _artistSearcher.ToReactivePropertyAsSynchronized(m => m.Artists).ToReactiveProperty();
-            Albums = _albumSearcher.ToReactivePropertyAsSynchronized(m => m.Albums).ToReactiveProperty();
-
-            Songs.Subscribe(i => UpdateLibrary(),
-                ex => Console.WriteLine("OnError({0})", ex.Message),
-                () => Console.WriteLine("Completed()"));
-
-            var source = Observable.Interval(TimeSpan.FromMilliseconds(10));
-            var _timerSubscrition = source.Subscribe(i => UpdateTime(),
-                ex => Console.WriteLine("OnError({0})", ex.Message),
-                () => Console.WriteLine("Completed()"));
-
-            _songsSearcher.AddFolder("D:\\MUSIC\\FlacMP3\\02_洋楽");
-            _songsSearcher.SearchMusicFiles();
+            // ライブラリ作成
+            AsyncCreateLibrary();
         }
+
 
         /// <summary>
         /// 時刻更新
@@ -176,29 +171,28 @@ namespace kaleidot725.ViewModel
         }
 
         /// <summary>
-        /// ライブラリ更新 
+        /// ライブラリ作成
         /// </summary>
-        private async void UpdateLibrary()
+        private async void AsyncCreateLibrary()
         {
-            // FIXME:Model側に非同期処理を実装する
-            _artistSearcher.CreateList(_songsSearcher.Songs.ToList());
-            _albumSearcher.CreateList(_songsSearcher.Songs.ToList());
+            await Task.Run(() =>
+            {
+                _songsSearcher.AddFolder("D:\\MUSIC\\FlacMP3\\02_洋楽\\FALL OUT BOY");
+                _songsSearcher.Search();
+                _artistList.Create(_songsSearcher.Audios.ToList());
+                _albumList.Create(_songsSearcher.Audios.ToList());
+            });
         }
 
         /// <summary>
         /// 再生
         /// </summary>
         private void Play()
-        {
-            if (_audioPlayer != null)
-            {
-                _audioPlayer.Dispose();
-            }
-
+        { 
             try
             {
-                _audioPlayer = new AudioPlayer();
-                _audioPlayer.Play(SelectedMusic.FilePath);
+                _audioPlayer.Dispose();
+                _audioPlayer.Play(SelectedMusic);
 
                 NowPlayMusic = SelectedMusic;
                 IsPlay = true;

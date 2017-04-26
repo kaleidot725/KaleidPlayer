@@ -8,22 +8,34 @@ using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model.Library
 {
-    class AlbumSearcher : BindableBase
+    /// <summary>
+    /// アルバム・リスト
+    /// </summary>
+    public class AlbumList : BindableBase
     {
+        /// <summary>
+        /// アルバム・コレクション
+        /// </summary>
         private ObservableCollection<AlbumDetail> _albums;
-
         public ObservableCollection<AlbumDetail> Albums
         {
             get { return _albums; }
             set { SetProperty(ref _albums, value); }
         }
 
-        public AlbumSearcher()
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AlbumList()
         {
             Albums = new ObservableCollection<AlbumDetail>();
         }
 
-        public void CreateList(List<AudioDetailBase> songs)
+        /// <summary>
+        /// リスト作成
+        /// </summary>
+        /// <param name="songs"></param>
+        public void Create(List<AudioDetailBase> songs)
         {
             foreach (var song in songs)
             {
@@ -41,7 +53,7 @@ namespace kaleidot725.Model.Library
                 }
                 finally
                 {
-                    detail.AddSong(song);
+                    detail.AddAudio(song);
                 }
             }
         } 

@@ -1,0 +1,32 @@
+﻿<Page x:Class="kaleidot725.View.AlbumPanelView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:kaleidot725.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="AlbumPanelView">
+
+    <Grid Height="auto" Width="auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="5,5,5,5" Background="Black">
+            <TextBlock Text="{Binding SelectedArtist.Name}" Foreground="White"/>
+            <TextBlock Text=" ** artist detail ** " Foreground="White"/>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" DataContext="{Binding}" ItemsSource="{Binding SelectedArtist.Albums}" SelectedItem="{Binding SeletedAlbum}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Page>

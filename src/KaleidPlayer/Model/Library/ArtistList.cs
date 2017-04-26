@@ -8,13 +8,15 @@ using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model.Library
 {
-    class ArtistSearcher:BindableBase
+    /// <summary>
+    /// アーティストリスト
+    /// </summary>
+    public class ArtistList :BindableBase
     {
-        private ObservableCollection<ArtistDetail> _artists;
-
         /// <summary>
-        /// 
+        /// アーティスト・コレクション
         /// </summary>
+        private ObservableCollection<ArtistDetail> _artists;
         public ObservableCollection<ArtistDetail> Artists
         {
             get { return _artists; }
@@ -22,18 +24,18 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// 
+        /// コンストラクタ
         /// </summary>
-        public ArtistSearcher()
+        public ArtistList()
         {
             Artists = new ObservableCollection<ArtistDetail>();
         }
 
         /// <summary>
-        /// 
+        /// リスト作成
         /// </summary>
         /// <param name="songs"></param>
-        public void CreateList(List<AudioDetailBase> songs)
+        public void Create(List<AudioDetailBase> songs)
         {
             foreach (var song in songs)
             {

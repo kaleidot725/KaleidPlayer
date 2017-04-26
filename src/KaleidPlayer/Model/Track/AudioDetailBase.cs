@@ -14,7 +14,7 @@ namespace kaleidot725.Model
     /// <summary>
     /// オーディオ詳細
     /// </summary>
-    abstract class AudioDetailBase : BindableBase
+    public abstract class AudioDetailBase : BindableBase
     {
         #region private
         private string _title;          // タイトル

@@ -12,10 +12,13 @@ using kaleidot725.Collection;
 
 namespace kaleidot725.Model.Library
 {
-    class TrackSearcher : BindableBase
+    /// <summary>
+    /// トラック検索モデル
+    /// </summary>
+    public class AudioSearcher : BindableBase
     {
         private ObservableCollection<string> _folders;
-        private ObservableCollection<AudioDetailBase> _songs;
+        private ObservableCollection<AudioDetailBase> _audios;
 
         /// <summary>
         /// 検索フォルダ
@@ -27,21 +30,21 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// 
+        /// トラック コレクション
         /// </summary>
-        public ObservableCollection<AudioDetailBase> Songs
+        public ObservableCollection<AudioDetailBase> Audios
         {
-            get { return _songs; }
-            set { SetProperty(ref _songs, value); }
+            get { return _audios; }
+            set { SetProperty(ref _audios, value); }
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public TrackSearcher()
+        public AudioSearcher()
         {
             Folders = new ObservableCollection<string>();
-            Songs = new ObservableCollection<AudioDetailBase>();
+            Audios = new ObservableCollection<AudioDetailBase>();
         }
 
         /// <summary>
@@ -65,16 +68,16 @@ namespace kaleidot725.Model.Library
         {
             Folders.Clear();
         }
-        
+
         /// <summary>
-        /// 音楽ファイル検索
+        /// トラック検索
         /// </summary>
-        public async void SearchMusicFiles()
+        public async void Search()
         {
             var songs = new ObservableCollection<AudioDetailBase>();
 
-            await Task.Run((Action)(() =>
-            {
+            //await Task.Run((Action)(() =>
+           // {
                 foreach (var folder in Folders)
                 {
                     List<string> fileList = Directory.GetFiles(folder, "*", System.IO.SearchOption.AllDirectories).ToList();
@@ -90,13 +93,13 @@ namespace kaleidot725.Model.Library
                         songs.Add(detail);
                     }
                 }
-            }));
+           // }));
 
-            Songs = songs;
+            Audios = songs;
         }
 
         /// <summary>
-        /// オーディオ詳細取得
+        /// トラック詳細取得
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>

@@ -8,10 +8,10 @@ using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model.Library
 {
-    class ArtistDetail : BindableBase
+    public class ArtistDetail : BindableBase
     {
         private string _name;
-        private ObservableCollection<string> _albums;
+        private ObservableCollection<AlbumDetail> _albums;
 
         /// <summary>
         /// 名前
@@ -25,7 +25,7 @@ namespace kaleidot725.Model.Library
         /// <summary>
         /// アルバムリスト
         /// </summary>
-        public ObservableCollection<string> Albums
+        public ObservableCollection<AlbumDetail> Albums
         {
             get { return _albums; }
             private set { SetProperty(ref _albums, value); }
@@ -46,7 +46,7 @@ namespace kaleidot725.Model.Library
         public ArtistDetail(AudioDetailBase detail)
         {
             Name = detail.Artist;
-            Albums = new ObservableCollection<string>();
+            Albums = new ObservableCollection<AlbumDetail>();
         }
 
         /// <summary>
@@ -55,13 +55,19 @@ namespace kaleidot725.Model.Library
         /// <param name="albumName"></param>
         public void AddAlbum(AudioDetailBase detail)
         {
+            AlbumDetail album = null;
             try
             {
-                Albums.First(name => name == detail.Album);
+                album = Albums.First(m => m.Name == detail.Album);
             }
             catch (InvalidOperationException e)
             {
-                Albums.Add(detail.Album);
+                album = new AlbumDetail(detail);
+                Albums.Add(album);
+            }
+            finally
+            {
+                album.AddAudio(detail);
             }
         }
 

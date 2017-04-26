@@ -9,7 +9,7 @@ namespace kaleidot725.Model
     /// <summary>
     /// NULLオブジェクト
     /// </summary>
-    class AudioNullDetail : AudioDetailBase
+    public class AudioNullDetail : AudioDetailBase
     {
         /// <summary>
         /// コンストラクタ

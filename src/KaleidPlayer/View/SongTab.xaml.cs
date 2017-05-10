@@ -18,7 +18,7 @@ namespace kaleidot725.View
     /// <summary>
     /// SongList.xaml の相互作用ロジック
     /// </summary>
-    public partial class SongTab : UserControl
+    public partial class SongTab : Page
     {
         private NavigationService _navi;
         private AudiosPanelView _audiosPanelView = new AudiosPanelView();

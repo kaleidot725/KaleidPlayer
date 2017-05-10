@@ -13,7 +13,7 @@ namespace kaleidot725.Model
         private const string FLAC_MARKER_STRING = "fLaC";
 
         /// <summary>
-        /// 
+        /// オフセット
         /// </summary>
         private enum FLAC_OFFSET
         {
@@ -22,7 +22,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// 長さ
         /// </summary>
         private enum FLAC_LENGTH
         {
@@ -30,7 +30,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// メタオフセット
         /// </summary>
         private enum META_OFFSET
         {
@@ -40,7 +40,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// メタ長さ
         /// </summary>
         private enum META_LENGTH
         {
@@ -49,7 +49,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// メタタイプ
         /// </summary>
         private enum META_TYPE
         {
@@ -62,6 +62,9 @@ namespace kaleidot725.Model
             PICTURE = 6
         }
 
+        /// <summary>
+        /// VORBISコメントサイズ
+        /// </summary>
         private enum VORBIS_COMMENT_SIZE
         {
             VENDER_COMMENT_SIZE = 4,
@@ -71,14 +74,14 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// メタデータクラス
         /// </summary>
         private class MetaData
         {
             private META_TYPE _type;
             private long _index;
             private long _size;
-            
+
             public META_TYPE Type
             {
                 get { return _type; }
@@ -105,10 +108,8 @@ namespace kaleidot725.Model
             }
         }
 
-
-
         /// <summary>
-        /// 
+        /// コンストラクタ
         /// </summary>
         /// <param name="filePath"></param>
         public AudioFlacDetail(string filePath)
@@ -123,7 +124,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// パーズ
         /// </summary>
         public override void Parse()
         {
@@ -139,7 +140,7 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// メタデータ収集
         /// </summary>
         private void CollectMetaData(Stream stream, ref List<MetaData> metaList)
         {
@@ -182,6 +183,11 @@ namespace kaleidot725.Model
             stream.Position = 0;
         }
 
+        /// <summary>
+        /// メタデータパーズ
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="metaList"></param>
         private void ParseMetaData(Stream stream, ref List<MetaData> metaList)
         {
             foreach (var metaItem in metaList)
@@ -207,21 +213,37 @@ namespace kaleidot725.Model
             }
         }
 
+        /// <summary>
+        /// Streaminfo パーズ
+        /// </summary>
+        /// <param name="metaData"></param>
         private void ParseStreamInfo(MetaData metaData)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Padding パーズ
+        /// </summary>
+        /// <param name="metaData"></param>
         private void ParsePadding(MetaData metaData)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Application パーズ
+        /// </summary>
+        /// <param name="metaData"></param>
         private void ParseApplication(MetaData metaData)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// SeekTable パーズ
+        /// </summary>
+        /// <param name="metaData"></param>
         private void ParseSeektable(MetaData metaData)
         {
             throw new NotImplementedException();
@@ -251,9 +273,9 @@ namespace kaleidot725.Model
             byte[] commentNumberBuffer = new byte[(int)VORBIS_COMMENT_SIZE.COMMENT_NUMBER];
             stream.Read(commentNumberBuffer, 0, commentNumberBuffer.Length);
             commentNumber = BitConverter.ToInt32(commentNumberBuffer, 0);
-            
+
             int commentCount = 0;
-            while (commentCount < commentNumber )
+            while (commentCount < commentNumber)
             {
                 byte[] lengthBuffer = new byte[(int)VORBIS_COMMENT_SIZE.VENDER_COMMENT_SIZE];
                 stream.Read(lengthBuffer, 0, lengthBuffer.Length);
@@ -267,7 +289,7 @@ namespace kaleidot725.Model
                 string vobisValue;
 
                 VorbisComment.Parse(value, out vorbisType, out vobisValue);
-                switch(vorbisType)
+                switch (vorbisType)
                 {
                     case VorbisComment.VORBIS_COMMENT_TYPE.TITLE:
                         this.Title = vobisValue;

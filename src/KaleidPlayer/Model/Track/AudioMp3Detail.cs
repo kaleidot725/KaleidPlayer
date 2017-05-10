@@ -248,6 +248,13 @@ namespace kaleidot725.Model
         {
             // タグデータ取得
             Mp3FileReader reader = new Mp3FileReader(FilePath);
+
+            // NULLチェック
+            if (reader.Id3v2Tag == null)
+            {
+                return;
+            }
+
             byte[] tagV2 = reader.Id3v2Tag.RawData;
             Encoding encoder = Encoding.Default;
 

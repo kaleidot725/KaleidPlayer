@@ -12,17 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using kaleidot725.ViewModel;
 
 namespace kaleidot725.View
 {
     /// <summary>
     /// AlbumList.xaml の相互作用ロジック
     /// </summary>
-    public partial class AlbumTab : UserControl
+    public partial class AlbumTab : Page
     {
-        private NavigationService _navi;
         private List<object> _pageList = new List<object>() { new AlbumsPanelView(), new AudioPanelView() };
-        private int currentIndex = 0;
+        private NavigationService _navi;
+        private pageIndex _currentIndex = pageIndex.ALBUM_PANEL_VIEW;
 
         private enum pageIndex
         {
@@ -58,19 +59,21 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (currentIndex <= 0)
+            if (_currentIndex <= 0)
             {
-                this.forwardButton.Visibility = System.Windows.Visibility.Collapsed;
+                this.backwardButton.Visibility = System.Windows.Visibility.Hidden;
+                this.tabText.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                this.forwardButton.Visibility = System.Windows.Visibility.Visible;
+                this.backwardButton.Visibility = System.Windows.Visibility.Visible;
+                this.tabText.Visibility = System.Windows.Visibility.Hidden;
             }
 
             return;
         }
 
-        private void myFrame_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void myFrame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_navi.CanGoForward)
             {
@@ -78,15 +81,15 @@ namespace kaleidot725.View
             }
             else
             {
-                if (currentIndex != 1)
+                if (isForwardable(_currentIndex))
                 {
-                    currentIndex++;
-                    _navi.Navigate(_pageList[currentIndex]);
+                    _currentIndex++;
+                    _navi.Navigate(_pageList[(int)_currentIndex]);
                 }
             }
         }
 
-        private void forwardButton_Click(object sender, RoutedEventArgs e)
+        private void backwardButton_Click(object sender, RoutedEventArgs e)
         {
             if (_navi.CanGoForward)
             {
@@ -94,11 +97,67 @@ namespace kaleidot725.View
             }
             else
             {
-                if (currentIndex != 0)
+                if (isBackwardable(_currentIndex))
                 {
-                    currentIndex--;
-                    _navi.Navigate(_pageList[currentIndex]);
+                    initSelectedItem(_currentIndex);
+                    _currentIndex--;
+                    _navi.Navigate(_pageList[(int)_currentIndex]);
                 }
+            }
+        }
+        /// <summary>
+        /// 遷移可能状態
+        /// </summary>
+        /// <param name="currentIndex"></param>
+        /// <returns></returns>
+        private bool isForwardable(pageIndex currentIndex)
+        {
+            var vm = (AlbumTabViewModel)this.DataContext;
+
+            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            {
+                if (vm.SeletedAlbum != null)
+                {
+                    return true;
+                }
+            }
+
+            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            {
+                if (vm.SeletedAlbum != null)
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 前ページ移動可能状態
+        /// </summary>
+        /// <param name="currentIndex"></param>
+        /// <returns></returns>
+        private bool isBackwardable(pageIndex currentIndex)
+        {
+            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// ViewModel状態初期化
+        /// </summary>
+        private void initSelectedItem(pageIndex currentIndex)
+        {
+            var vm = (AlbumTabViewModel)this.DataContext;
+
+            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            {
+                vm.SeletedAlbum = null;
             }
         }
     }

@@ -14,12 +14,11 @@ namespace kaleidot725.Model.Library
     /// </summary>
     public class AlbumDetail : BindableBase
     {
-        private string _name;
-        private ObservableCollection<AudioDetailBase> audios;
 
         /// <summary>
         /// 名前
         /// </summary>
+        private string _name;
         public string Name
         {
             get { return _name; }
@@ -27,20 +26,21 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// クアント
+        /// カウント
         /// </summary>
         public int Count
         {
-            get { return audios.Count; }
+            get { return _auidos.Count; }
         }
 
         /// <summary>
         /// 曲情報
         /// </summary>
+        private ObservableCollection<AudioDetailBase> _auidos;
         public ObservableCollection<AudioDetailBase> Audios
         {
-            get { return audios; }
-            private set { SetProperty(ref audios, value); }
+            get { return _auidos; }
+            private set { SetProperty(ref _auidos, value); }
         }
 
         /// <summary>

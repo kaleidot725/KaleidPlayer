@@ -20,6 +20,8 @@ namespace kaleidot725.ViewModel
         public DelegateCommand PlayCommand { get; }
         public DelegateCommand ReplayCommand { get; }
         public DelegateCommand SeekCommand { get; }
+        public DelegateCommand NextCommand { get; }
+        public DelegateCommand ForwardCommand { get; }
 
         /// <summary>
         /// ファイル名
@@ -81,15 +83,6 @@ namespace kaleidot725.ViewModel
             set { SetProperty(ref _totaltime, value); }
         }
 
-        /// <summary>
-        /// リスト選択した音楽ファイル情報
-        /// </summary>
-        private AudioDetailBase _selectedMusic;
-        public AudioDetailBase SelectedMusic
-        {
-            get { return _selectedMusic; }
-            set { SetProperty(ref _selectedMusic, value); }
-        }
 
         /// <summary>
         /// 再生している音楽ファイル情報
@@ -105,6 +98,7 @@ namespace kaleidot725.ViewModel
         private AudioSearcher _songsSearcher;
         private ArtistList _artistList;
         private AlbumList _albumList;
+        private AudioPlaylist _playlist;
 
         private IObservable<long> _timer;
         private IDisposable _subscription;
@@ -127,16 +121,17 @@ namespace kaleidot725.ViewModel
             _songsSearcher = SingletonModels.GetAudioSearcherInstance();
             _artistList = SingletonModels.GetArtistListInstance();
             _albumList = SingletonModels.GetAlbumListInstance();
+            _playlist = SingletonModels.GetAudioPlaylist();
 
             // コマンド作成
-            this.PlayCommand = new DelegateCommand(Play);
             this.ReplayCommand = new DelegateCommand(Replay);
             this.SeekCommand = new DelegateCommand(Seek);
+            this.NextCommand = new DelegateCommand(Next);
+            this.ForwardCommand = new DelegateCommand(Forward);
 
             // ライブラリ作成
             AsyncCreateLibrary();
         }
-
 
         /// <summary>
         /// 時刻更新
@@ -146,6 +141,12 @@ namespace kaleidot725.ViewModel
             if (_audioPlayer == null)
             {
                 return;
+            }
+
+            var currentAudio = _playlist.Current();
+            if (_nowPlayMusic.Equals(currentAudio) != true)
+            {
+                NowPlayMusic = currentAudio;
             }
 
             // シーク値と現在時刻が違う場合
@@ -168,6 +169,12 @@ namespace kaleidot725.ViewModel
                 TotalTime = _audioPlayer.TotalTime;
                 SeekMax = (int)TotalTime.TotalSeconds;
             }
+
+            // 変化があるときのみ更新する
+            if (IsPlay != _audioPlayer.IsPlay)
+            {
+                IsPlay = _audioPlayer.IsPlay;
+            }
         }
 
         /// <summary>
@@ -177,34 +184,12 @@ namespace kaleidot725.ViewModel
         {
             await Task.Run(() =>
             {
-                _songsSearcher.AddFolder("D:\\MUSIC\\FlacMP3\\02_洋楽\\FALL OUT BOY");
+                _songsSearcher.AddFolder("D:\\MUSIC\\FlacMP3\\02_洋楽");
                 _songsSearcher.Search();
-                _artistList.Create(_songsSearcher.Audios.ToList());
-                _albumList.Create(_songsSearcher.Audios.ToList());
             });
-        }
 
-        /// <summary>
-        /// 再生
-        /// </summary>
-        private void Play()
-        { 
-            try
-            {
-                _audioPlayer.Dispose();
-                _audioPlayer.Play(SelectedMusic);
-
-                NowPlayMusic = SelectedMusic;
-                IsPlay = true;
-            }
-            catch (System.IO.FileNotFoundException e)
-            {
-                System.Windows.MessageBox.Show("Play Error.");
-            }
-            catch (System.ArgumentException e)
-            {
-                System.Windows.MessageBox.Show(e.Message);
-            }
+            _artistList.Create(_songsSearcher.Audios.ToList());
+            _albumList.Create(_songsSearcher.Audios.ToList());
         }
 
         /// <summary>
@@ -212,12 +197,11 @@ namespace kaleidot725.ViewModel
         /// </summary>
         private void Replay()
         {
-            if (IsPlay == false)
+            if (_isPlay == false)
             {
                 try
                 {
                     _audioPlayer.Replay();
-                    IsPlay = true;
                 }
                 catch (System.IO.FileNotFoundException e)
                 {
@@ -233,7 +217,6 @@ namespace kaleidot725.ViewModel
                 try
                 {
                     _audioPlayer.Pause();
-                    IsPlay = false;
                 }
                 catch (System.IO.FileNotFoundException e)
                 {
@@ -255,6 +238,44 @@ namespace kaleidot725.ViewModel
             catch (System.IO.FileNotFoundException e)
             {
                 System.Windows.MessageBox.Show("Seek Error.");
+            }
+        }
+
+        private void Next()
+        {
+            try
+            {
+                _audioPlayer.Dispose();
+
+                var nextAudio = _playlist.Next();
+                _audioPlayer.Play(nextAudio);
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                System.Windows.MessageBox.Show("Play Error.");
+            }
+            catch (System.ArgumentException e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+            }
+        }
+
+        private void Forward()
+        {
+            try
+            {
+                _audioPlayer.Dispose();
+
+                var forwardAudio = _playlist.Forward();
+                _audioPlayer.Play(forwardAudio);
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                System.Windows.MessageBox.Show("Play Error.");
+            }
+            catch (System.ArgumentException e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
             }
         }
     }

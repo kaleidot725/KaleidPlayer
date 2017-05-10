@@ -20,6 +20,7 @@ namespace kaleidot725.ViewModel
         private AudioSearcher _songsSearcher;
         private ArtistList _aritstList;
         private AlbumList _albumList;
+        private AudioPlaylist _playList;
 
         public ReactiveProperty<ObservableCollection<ArtistDetail>> Artists { get; private set; }
         public ReactiveProperty<ObservableCollection<AlbumDetail>> Albums { get; private set; }
@@ -30,6 +31,9 @@ namespace kaleidot725.ViewModel
         /// </summary>
         public DelegateCommand PlayCommand { get; }
 
+        /// <summary>
+        /// 選択したアルバム
+        /// </summary>
         private AlbumDetail _seletedAlbum;
         public AlbumDetail SeletedAlbum
         {
@@ -38,7 +42,7 @@ namespace kaleidot725.ViewModel
         }
 
         /// <summary>
-        /// リスト選択した音楽ファイル情報
+        /// 選択した音楽ファイル情報
         /// </summary>
         private AudioDetailBase _seletedAudio;
         public AudioDetailBase SeletedAudio
@@ -47,6 +51,9 @@ namespace kaleidot725.ViewModel
             set { SetProperty(ref _seletedAudio, value); }
         }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public AlbumTabViewModel()
         {
             // 初期化
@@ -54,6 +61,7 @@ namespace kaleidot725.ViewModel
             _songsSearcher = SingletonModels.GetAudioSearcherInstance();
             _aritstList = SingletonModels.GetArtistListInstance();
             _albumList = SingletonModels.GetAlbumListInstance();
+            _playList = SingletonModels.GetAudioPlaylist();
 
             Artists = _aritstList.ToReactivePropertyAsSynchronized(m => m.Artists).ToReactiveProperty();
             Albums = _albumList.ToReactivePropertyAsSynchronized(m => m.Albums).ToReactiveProperty();
@@ -69,8 +77,11 @@ namespace kaleidot725.ViewModel
         {
             try
             {
+                _playList.CreatePlaylist(SeletedAlbum.Audios, SeletedAudio);
+                var playAudio = _playList.Current();
+
                 _audioPlayer.Dispose();
-                _audioPlayer.Play(SeletedAudio);
+                _audioPlayer.Play(playAudio);
             }
             catch (System.IO.FileNotFoundException e)
             {

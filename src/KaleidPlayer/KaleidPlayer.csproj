@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AppICon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dragablz, Version=0.0.3.185, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.185\lib\net45\Dragablz.dll</HintPath>
@@ -125,6 +128,7 @@
     <Compile Include="Model\Library\AlbumList.cs" />
     <Compile Include="Model\Library\ArtistDetail.cs" />
     <Compile Include="Model\Library\ArtistList.cs" />
+    <Compile Include="Model\Player\AudioPlaylist.cs" />
     <Compile Include="Model\SingletonModels.cs" />
     <Compile Include="Model\Track\AudioDetailBase.cs" />
     <Compile Include="Model\Track\AudioFlacDetail.cs" />
@@ -135,7 +139,26 @@
     <Compile Include="ViewModel\AlbumTabViewModel.cs" />
     <Compile Include="ViewModel\ArtistTabViewModel.cs" />
     <Compile Include="ViewModel\Converter\TitleConverter.cs" />
+    <Compile Include="ViewModel\Converter\TrackNoConverter.cs" />
     <Compile Include="ViewModel\SongTabViewModel.cs" />
+    <Compile Include="View\Icon\AlbumIcon.xaml.cs">
+      <DependentUpon>AlbumIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\AppICon.xaml.cs">
+      <DependentUpon>AppICon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\ArtistIcon.xaml.cs">
+      <DependentUpon>ArtistIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\AudioIcon.xaml.cs">
+      <DependentUpon>AudioIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\LeftArrowIcon.xaml.cs">
+      <DependentUpon>LeftArrowIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icon\SettingIcon.xaml.cs">
+      <DependentUpon>SettingIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SongList\AlbumsPanelView.xaml.cs">
       <DependentUpon>AlbumsPanelView.xaml</DependentUpon>
     </Compile>
@@ -197,6 +220,30 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Icon\AlbumIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\AppICon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\ArtistIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\AudioIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\LeftArrowIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\SettingIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SongList\AlbumsPanelView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -282,7 +329,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="www_dotup_org4316809.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AppICon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -18,7 +18,7 @@ namespace kaleidot725.View
     /// <summary>
     /// SettingTab.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingTab : UserControl
+    public partial class SettingTab : Page
     {
         public SettingTab()
         {

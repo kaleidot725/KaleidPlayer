@@ -31,29 +31,58 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <dragablz:TabablzControl Grid.Column="0">
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-            <TabItem Header="Artist">
-                <view:ArtistTab/>
-            </TabItem>
-            <TabItem Header="Album">
-                <view:AlbumTab/>
-            </TabItem>
-            <TabItem Header="Track">
-                <view:SongTab/>
-            </TabItem>
-            <TabItem Header="Playing">
-                <view:SettingTab />
-            </TabItem>
-        </dragablz:TabablzControl>
-
-        <Grid Grid.Row="2" Grid.RowSpan="1" Background="Green">
+        <DockPanel>
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Name="ArtistButton"
+                        Background="Transparent" 
+                        Foreground="Transparent"
+                        BorderBrush="Transparent"
+                        Height="auto"
+                        Padding="0,0,0,0" 
+                        Click="ArtistButton_Click">
+                    <view:ArtistIcon Margin="5,5,5,5"/>
+                </Button>
+                <Button Name="AlbumButton"
+                        Background="Transparent" 
+                        Foreground="Transparent"
+                        BorderBrush="Transparent" 
+                        Height="auto"
+                        Padding="0,0,0,0"
+                        Click="AlbumButton_Click">
+                    <view:AlbumIcon Margin="5,5,5,5"/>
+                </Button>
+                <Button Name="AudioButton"
+                        Background="Transparent" 
+                        Foreground="Transparent"
+                        BorderBrush="Transparent" 
+                        Height="auto"
+                        Padding="0,0,0,0"
+                        Click="AudioButton_Click">
+                    <view:AudioIcon Margin="5,5,5,5"/>
+                </Button>
+                <Button Name="SettingButton"
+                        Background="Transparent" 
+                        Foreground="Transparent"
+                        BorderBrush="Transparent"
+                        Height="auto"
+                        Padding="0,0,0,0"
+                        Click="SettingButton_Click">
+                    <view:SettingIcon Margin="5,5,5,5"/>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+        
+        <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="myFrame" DataContext="{Binding}"
+               Loaded="myFrame_Loaded" Navigated="myFrame_Navigated"/>
+        
+        <Grid Grid.Row="2" Grid.RowSpan="1" Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -123,6 +152,7 @@
                     Grid.ColumnSpan="1"
                     Grid.Row="0"
                     Grid.RowSpan="2"
+                    Command="{Binding ForwardCommand}"
                     Background="Transparent" 
                     Foreground="Transparent"
                     BorderBrush="Transparent">
@@ -162,11 +192,11 @@
                                         </Grid>
                                     </Border>
                                     <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsPlay}" Value="true">
+                                        <DataTrigger Binding="{Binding IsPlay, UpdateSourceTrigger=PropertyChanged}" Value="true">
                                             <Setter TargetName="PlayImage" Property="Visibility" Value="Hidden"/>
                                             <Setter TargetName="StopImage" Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsPlay}" Value="false">
+                                        <DataTrigger Binding="{Binding IsPlay, UpdateSourceTrigger=PropertyChanged}" Value="false">
                                             <Setter TargetName="PlayImage" Property="Visibility" Value="Visible"/>
                                             <Setter TargetName="StopImage" Property="Visibility" Value="Hidden"/>
                                         </DataTrigger>
@@ -181,6 +211,7 @@
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
+                    Command="{Binding NextCommand}"
                     Background="Transparent" 
                     Foreground="Transparent" >
                 <Button.Style>

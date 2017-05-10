@@ -17,12 +17,11 @@ namespace kaleidot725.Model.Library
     /// </summary>
     public class AudioSearcher : BindableBase
     {
-        private ObservableCollection<string> _folders;
-        private ObservableCollection<AudioDetailBase> _audios;
 
         /// <summary>
         /// 検索フォルダ
         /// </summary>
+        private ObservableCollection<string> _folders;
         public ObservableCollection<string> Folders
         {
             get { return _folders; }
@@ -32,6 +31,7 @@ namespace kaleidot725.Model.Library
         /// <summary>
         /// トラック コレクション
         /// </summary>
+        private ObservableCollection<AudioDetailBase> _audios;
         public ObservableCollection<AudioDetailBase> Audios
         {
             get { return _audios; }

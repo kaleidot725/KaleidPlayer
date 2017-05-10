@@ -16,7 +16,6 @@ namespace kaleidot725.Model
     /// </summary>
     public abstract class AudioDetailBase : BindableBase
     {
-        #region private
         private string _title;          // タイトル
         private string _artist;         // アーティスト
         private string _album;          // アルバム
@@ -28,8 +27,7 @@ namespace kaleidot725.Model
         private string _composer;       // 作曲者
         private string _discnumber;       // ディスクナンバー
         private string _filePath;       // ファイルパス
-        #endregion
-
+        
         /// <summary>
         /// タイトル
         /// </summary>

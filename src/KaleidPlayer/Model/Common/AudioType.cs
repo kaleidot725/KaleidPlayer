@@ -11,15 +11,11 @@ namespace kaleidot725.Model
     /// </summary>
     public static class AudioType
     {
-        #region private
         private const string ExtensionWave = ".wav";      // WAVE拡張子
         private const string ExtensionFlac = ".flac";     // FLAC拡張子
         private const string ExtensionMp3 = ".mp3";       // MP3拡張子
-        #endregion
 
-        #region public
         public enum Types { Wave, Mp3, Flac, Unknown };   // ファイルタイプ
-        #endregion
 
         /// <summary>
         /// オーディオ種別 解析

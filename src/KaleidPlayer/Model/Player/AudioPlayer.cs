@@ -17,11 +17,9 @@ namespace kaleidot725.Model
     /// </summary>
     public class AudioPlayer : BindableBase, IDisposable
     {
-        private AudioDetailBase _currentAudio;
         private WaveStream _audioStream;
         private WaveChannel32 _volumeStream;
         private IWavePlayer _waveOut;
-        private IDisposable _timerSubscrition;
 
         /// <summary>
         /// 現在時間
@@ -40,13 +38,32 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
+        /// 再生状態
+        /// </summary>
+        public bool IsPlay
+        {
+            get
+            {
+                if (_waveOut != null)
+                {
+                    if (_waveOut.PlaybackState == PlaybackState.Playing)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// プレイ
         /// </summary>
         public void Play(AudioDetailBase audio)
         {
-            if (_audioStream != null || _waveOut != null)
+            if (audio == null)
             {
-                this.Dispose();
+                throw new System.ArgumentNullException();
             }
 
             if (File.Exists(audio.FilePath) != true)
@@ -54,8 +71,12 @@ namespace kaleidot725.Model
                 throw new FileNotFoundException(audio.FilePath);
             }
 
-            this._currentAudio = audio;
-            this.InitializeStream(_currentAudio.FilePath);
+            if (_audioStream != null || _waveOut != null)
+            {
+                this.Dispose();
+            }
+
+            this.InitializeStream(audio.FilePath);
             this._waveOut.Play();
         }
 
@@ -121,8 +142,14 @@ namespace kaleidot725.Model
                 throw new NullReferenceException();
             }
 
+            if (_waveOut.PlaybackState == PlaybackState.Playing)
+            {
+                this._waveOut.Pause();
+            }
+
             var second = SeekTime.TotalSeconds;
             _audioStream.Position = (int)((double)_audioStream.WaveFormat.AverageBytesPerSecond * second);
+            this._waveOut.Play();
         }
 
         /// <summary>

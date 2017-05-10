@@ -20,6 +20,7 @@ namespace kaleidot725.ViewModel
         private AudioSearcher _songsSearcher;
         private ArtistList _aritstList;
         private AlbumList _albumList;
+        private AudioPlaylist _playList;
 
         public ReactiveProperty<ObservableCollection<ArtistDetail>> Artists { get; private set; }
         public ReactiveProperty<ObservableCollection<AlbumDetail>> Albums { get; private set; }
@@ -40,6 +41,9 @@ namespace kaleidot725.ViewModel
             set { SetProperty(ref _seletedAudio, value); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public SongTabViewModel()
         {
             // 初期化
@@ -47,6 +51,7 @@ namespace kaleidot725.ViewModel
             _songsSearcher = SingletonModels.GetAudioSearcherInstance();
             _aritstList = SingletonModels.GetArtistListInstance();
             _albumList = SingletonModels.GetAlbumListInstance();
+            _playList = SingletonModels.GetAudioPlaylist();
 
             Artists = _aritstList.ToReactivePropertyAsSynchronized(m => m.Artists).ToReactiveProperty();
             Albums = _albumList.ToReactivePropertyAsSynchronized(m => m.Albums).ToReactiveProperty();
@@ -62,8 +67,11 @@ namespace kaleidot725.ViewModel
         {
             try
             {
+                _playList.CreatePlaylist(Audios.Value, SeletedAudio);
+                var playAudio = _playList.Current();
+
                 _audioPlayer.Dispose();
-                _audioPlayer.Play(SeletedAudio);
+                _audioPlayer.Play(playAudio);
             }
             catch (System.IO.FileNotFoundException e)
             {

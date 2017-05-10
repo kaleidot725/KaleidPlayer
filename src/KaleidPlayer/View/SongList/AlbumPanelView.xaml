@@ -14,9 +14,8 @@
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Row="0" Margin="5,5,5,5" Background="Black">
-            <TextBlock Text="{Binding SelectedArtist.Name}" Foreground="White"/>
-            <TextBlock Text=" ** artist detail ** " Foreground="White"/>
+        <StackPanel Grid.Row="0" Margin="5,5,5,5" Background="Transparent">
+            <TextBlock Text="{Binding SelectedArtist.Name}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"/>
         </StackPanel>
 
         <ListBox Grid.Row="1" DataContext="{Binding}" ItemsSource="{Binding SelectedArtist.Albums}" SelectedItem="{Binding SeletedAlbum}">

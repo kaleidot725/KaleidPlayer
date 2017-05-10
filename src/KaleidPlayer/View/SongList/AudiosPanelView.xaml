@@ -15,8 +15,9 @@
             <ListBox DataContext="{Binding}" ItemsSource="{Binding Audios.Value}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding TrackNo}"/>
+                            <TextBlock Text=" "/>
                             <TextBlock Text="{Binding Title}" />
                         </StackPanel>
                     </DataTemplate>

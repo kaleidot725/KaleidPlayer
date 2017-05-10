@@ -10,12 +10,10 @@ namespace kaleidot725.Model.Library
 {
     public class ArtistDetail : BindableBase
     {
-        private string _name;
-        private ObservableCollection<AlbumDetail> _albums;
-
         /// <summary>
         /// 名前
         /// </summary>
+        private string _name;
         public string Name
         {
             get { return _name; }
@@ -25,6 +23,7 @@ namespace kaleidot725.Model.Library
         /// <summary>
         /// アルバムリスト
         /// </summary>
+        private ObservableCollection<AlbumDetail> _albums;
         public ObservableCollection<AlbumDetail> Albums
         {
             get { return _albums; }
@@ -50,7 +49,7 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// 
+        /// 追加
         /// </summary>
         /// <param name="albumName"></param>
         public void AddAlbum(AudioDetailBase detail)
@@ -72,7 +71,7 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
-        /// 
+        /// クリア
         /// </summary>
         public void ClearAlbums()
         {

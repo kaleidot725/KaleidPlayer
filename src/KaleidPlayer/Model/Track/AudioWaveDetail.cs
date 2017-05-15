@@ -10,7 +10,6 @@ namespace kaleidot725.Model
 {
     public class AudioWaveDetail : AudioDetailBase
     {
-        #region 定数定義
         /// <summary>
         /// WAVE チャンク
         /// </summary>
@@ -65,9 +64,7 @@ namespace kaleidot725.Model
             INFOID = 4,
             SIZE = 4
         }
-        #endregion
 
-        #region プロパティ
         private string _software;
 
         public string Software
@@ -75,7 +72,6 @@ namespace kaleidot725.Model
             get { return _software; }
             set { SetProperty(ref _software, value); }
         }
-        #endregion
 
         /// <summary>
         /// コンストラクタ
@@ -122,29 +118,30 @@ namespace kaleidot725.Model
                 byte[] infoSizeArray = new byte[(int)LIST_FRAME_SIZE.SIZE];
                 Buffer.BlockCopy(listData, index + (int)LIST_FRAME_OFFSET.SIZE, infoSizeArray, 0, (int)LIST_FRAME_SIZE.SIZE);
                 int infoSize = BitConverter.ToInt32(infoSizeArray, 0);
+                string encStr = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize); ;
 
                 switch (infoId)
                 {
                     case WAVE_INFOID_TITLE:
-                        this.Title = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Title = encStr;
                         break;
                     case WAVE_INFOID_ARTIST:
-                        this.Artist = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Artist = encStr;
                         break;
                     case WAVE_INFOID_ALBUM:
-                        this.Album = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Album = encStr;
                         break;
                     case WAVE_INFOID_DATE:
-                        this.Date = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Date = encStr;
                         break;
                     case WAVE_INFOID_COMMENT:
-                        this.Comment = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Comment = encStr;
                         break;
                     case WAVE_INFOID_GENLE:
-                        this.Genle = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Genle = encStr;
                         break;
                     case WAVE_INFOID_SOFTWARE:
-                        this.Software = encoding.GetString(listData, index + (int)LIST_FRAME_OFFSET.DATA, infoSize);
+                        this.Software = encStr;
                         break;
                     default:
                         // Do Nothing

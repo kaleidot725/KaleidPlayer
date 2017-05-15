@@ -124,6 +124,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Setting\ApplicationSetting.cs" />
     <Compile Include="Model\Library\AlbumDetail.cs" />
     <Compile Include="Model\Library\AlbumList.cs" />
     <Compile Include="Model\Library\ArtistDetail.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="ViewModel\ArtistTabViewModel.cs" />
     <Compile Include="ViewModel\Converter\TitleConverter.cs" />
     <Compile Include="ViewModel\Converter\TrackNoConverter.cs" />
+    <Compile Include="ViewModel\SettingTabViewModel.cs" />
     <Compile Include="ViewModel\SongTabViewModel.cs" />
     <Compile Include="View\Icon\AlbumIcon.xaml.cs">
       <DependentUpon>AlbumIcon.xaml</DependentUpon>

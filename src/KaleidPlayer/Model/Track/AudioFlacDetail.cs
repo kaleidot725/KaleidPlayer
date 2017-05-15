@@ -283,7 +283,7 @@ namespace kaleidot725.Model
 
                 byte[] valueBuffer = new byte[length];
                 stream.Read(valueBuffer, 0, valueBuffer.Length);
-                string value = Encoding.Default.GetString(valueBuffer);
+                string value = Encoding.UTF8.GetString(valueBuffer);
 
                 VorbisComment.VORBIS_COMMENT_TYPE vorbisType;
                 string vobisValue;
@@ -304,6 +304,7 @@ namespace kaleidot725.Model
                         break;
                     case VorbisComment.VORBIS_COMMENT_TYPE.ARTIST:
                         this.Artist = vobisValue;
+                        System.Console.WriteLine(string.Format("flac {0}", Artist));
                         break;
                     case VorbisComment.VORBIS_COMMENT_TYPE.PERFORMER:
                         break;

@@ -256,7 +256,7 @@ namespace kaleidot725.Model
             }
 
             byte[] tagV2 = reader.Id3v2Tag.RawData;
-            Encoding encoder = Encoding.Default;
+            Encoding encoder = Encoding.GetEncoding("iso-8859-1");
 
             // ヘッダ部取得
             string id = encoder.GetString(tagV2, (int)ID3V2_HEADER_OFFSET.ID, (int)ID3V2_HEADER_SIZE.ID);
@@ -299,32 +299,35 @@ namespace kaleidot725.Model
                 byte lowFlag = tagV2[fHeaderIndex + (int)ID3V2_FHEADER_OFFSET.FLAG + 1];
 
                 // エンコード形式
+                byte[] b = new byte[frameSize - 1];
+                Buffer.BlockCopy(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, b, 0, frameSize - 1);
+
                 byte fEncType = tagV2[fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL];
-                Encoding fEncoding = GetEncodingTypes(fEncType);
+                string encStr = EncodingString(fEncType, b);
 
                 // ペイロード
                 switch (frameId)
                 {
                     case ID3V23_FRAME_TITLE:
-                        this.Title = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Title = encStr;
                         break;
                     case ID3V23_FRAME_ARTIST:
-                        this.Artist = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Artist = encStr;
                         break;
                     case ID3V23_FRAME_ALBUM:
-                        this.Album = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Album = encStr;
                         break;
                     case ID3V23_FRAME_DATE:
-                        this.Date = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Date = encStr;
                         break;
                     case ID3V23_FRAME_COMMENT:
-                        this.Comment = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Comment = encStr;
                         break;
                     case ID3V23_FRAME_TRACKNO:
-                        this.TrackNo = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.TrackNo = GetTrackNoFromTRCKFormat(encStr);
                         break;
                     case ID3V23_FRAME_GENLE:
-                        this.Genle = fEncoding.GetString(tagV2, fHeaderIndex + (int)ID3V2_FHEADER_SIZE.ALL + 1, frameSize - 1);
+                        this.Genle = encStr;
                         break;
                     default:
                         break;
@@ -335,7 +338,57 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// 
+        /// [トラックの番号/セット中]からトラック番号を取得する
+        /// </summary>
+        /// <returns></returns>
+        static string GetTrackNoFromTRCKFormat(string trackStr)
+        {
+            var split = trackStr.Split('/');
+            return split[0];
+        }
+
+        /// <summary>
+        /// 文字列をエンコードする
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        static string EncodingString(byte type, byte[] input)
+        {
+            var encoding = GetEncodingTypes(type);
+            var preamble = encoding.GetPreamble();
+            var bytes = new byte[input.Length];
+
+            // BOMを探す
+            if (preamble.Length < input.Length)
+            {
+                int count = 0;
+                bool ret = true;
+
+                foreach (var c in preamble)
+                {
+                    if (c != input[count])
+                    {
+                        Buffer.BlockCopy(input, 0, bytes, 0, input.Length);
+                        break;
+                    }
+
+                    count++;
+                    if (count == preamble.Length)
+                    {
+                        Buffer.BlockCopy(input, preamble.Length, bytes, 0, input.Length - preamble.Length);
+                        break;
+                    }
+                }
+            }
+
+            var str = encoding.GetString(bytes);
+            str = str.Replace("\0", "");
+            return str;
+        }
+
+        /// <summary>
+        /// エンコーディングオブジェクト取得
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -344,9 +397,13 @@ namespace kaleidot725.Model
             switch (type)
             {
                 case (int)ID3V2_ENCODING_TYPES.ISO_8859_1:
-                    return Encoding.GetEncoding(0);
+                    return Encoding.GetEncoding("iso-8859-1");
                 case (int)ID3V2_ENCODING_TYPES.UTF_16:
+                    return new UnicodeEncoding(false, true);
+                case (int)ID3V2_ENCODING_TYPES.UTF_16BE:
                     return Encoding.BigEndianUnicode;
+                case (int)ID3V2_ENCODING_TYPES.UTF_8:
+                    return Encoding.UTF8;
                 default:
                     return Encoding.Default;
             }

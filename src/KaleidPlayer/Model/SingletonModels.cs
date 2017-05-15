@@ -14,6 +14,7 @@ namespace kaleidot725.Model
         static ArtistList _artistList = new ArtistList();
         static AlbumList _albumList = new AlbumList();
         static AudioPlaylist _playlist = new AudioPlaylist();
+        static ApplicationSetting _setting = new ApplicationSetting();
 
         /// <summary>
         /// インスタンス取得
@@ -58,6 +59,11 @@ namespace kaleidot725.Model
         static public AudioPlaylist GetAudioPlaylist()
         {
             return _playlist;
+        }
+
+        static public ApplicationSetting GetApplicationSetting()
+        {
+            return _setting;
         }
     }
 }

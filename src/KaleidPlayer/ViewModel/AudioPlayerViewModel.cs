@@ -22,6 +22,7 @@ namespace kaleidot725.ViewModel
         public DelegateCommand SeekCommand { get; }
         public DelegateCommand NextCommand { get; }
         public DelegateCommand ForwardCommand { get; }
+        public DelegateCommand DebugUpdateLibrary { get; }
 
         /// <summary>
         /// ファイル名
@@ -99,6 +100,7 @@ namespace kaleidot725.ViewModel
         private ArtistList _artistList;
         private AlbumList _albumList;
         private AudioPlaylist _playlist;
+        private ApplicationSetting _setting;
 
         private IObservable<long> _timer;
         private IDisposable _subscription;
@@ -122,12 +124,14 @@ namespace kaleidot725.ViewModel
             _artistList = SingletonModels.GetArtistListInstance();
             _albumList = SingletonModels.GetAlbumListInstance();
             _playlist = SingletonModels.GetAudioPlaylist();
+            _setting = SingletonModels.GetApplicationSetting();
 
             // コマンド作成
             this.ReplayCommand = new DelegateCommand(Replay);
             this.SeekCommand = new DelegateCommand(Seek);
             this.NextCommand = new DelegateCommand(Next);
             this.ForwardCommand = new DelegateCommand(Forward);
+            this.DebugUpdateLibrary = new DelegateCommand(AsyncCreateLibrary);
 
             // ライブラリ作成
             AsyncCreateLibrary();
@@ -184,10 +188,14 @@ namespace kaleidot725.ViewModel
         {
             await Task.Run(() =>
             {
-                _songsSearcher.AddFolder("D:\\MUSIC\\FlacMP3\\02_洋楽");
-                _songsSearcher.Search();
+                foreach (var path in _setting.LibraryFolder)
+                {
+                    _songsSearcher.AddFolder(path);
+                    _songsSearcher.Search();
+                }
             });
 
+            _artistList.Clear();
             _artistList.Create(_songsSearcher.Audios.ToList());
             _albumList.Create(_songsSearcher.Audios.ToList());
         }

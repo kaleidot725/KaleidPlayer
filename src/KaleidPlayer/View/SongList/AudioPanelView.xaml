@@ -28,11 +28,14 @@
             <ListBox  Grid.Row="1" ItemsSource="{Binding SeletedAlbum.Audios}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding TrackNo, Converter={StaticResource trackNoConv}}"/>
-                            <TextBlock Text="****"/>
-                            <TextBlock Text="{Binding Title}" />
-                        </StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{Binding TrackNo, Converter={StaticResource trackNoConv}}"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Title}" />
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <i:Interaction.Triggers>

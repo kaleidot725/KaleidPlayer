@@ -76,9 +76,10 @@ namespace kaleidot725.Model.Library
         {
             var songs = new ObservableCollection<AudioDetailBase>();
 
-            //await Task.Run((Action)(() =>
-           // {
-                foreach (var folder in Folders)
+            foreach (var folder in Folders)
+            {
+                // FIXME:フォルダパスを格納する段階でエラーを出せ
+                try
                 {
                     List<string> fileList = Directory.GetFiles(folder, "*", System.IO.SearchOption.AllDirectories).ToList();
                     foreach (var file in fileList)
@@ -93,7 +94,11 @@ namespace kaleidot725.Model.Library
                         songs.Add(detail);
                     }
                 }
-           // }));
+                catch (DirectoryNotFoundException e)
+                {
+                    System.Console.WriteLine("SongSearcher Error");
+                }
+            }
 
             Audios = songs;
         }

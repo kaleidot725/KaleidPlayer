@@ -153,3 +153,8 @@ C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\kaleidot725.Pro
 C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\KaleidPlayer.csproj.GenerateResource.Cache
 C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\kaleidot725.exe
 C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\kaleidot725.pdb
+C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\KaleidPlayer.csprojResolveAssemblyReference.cache
+C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\View\Icon\AppICon.g.cs
+C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\View\Icon\LeftArrowIcon.g.cs
+C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\View\Icon\AppICon.baml
+C:\Users\K-Y\Documents\KaleidPlayer\src\KaleidPlayer\obj\Release\View\Icon\LeftArrowIcon.baml

@@ -42,6 +42,7 @@ namespace kaleidot725.Model.Library
                 ArtistDetail detail = null;
 
                 string artist = song.Artist;
+
                 try
                 {
                     detail = Artists.First(m => m.Name == artist);
@@ -56,6 +57,11 @@ namespace kaleidot725.Model.Library
                     detail.AddAlbum(song);
                 }
             }
+        }
+
+        public void Clear()
+        {
+            Artists.Clear();
         }
     }
 }

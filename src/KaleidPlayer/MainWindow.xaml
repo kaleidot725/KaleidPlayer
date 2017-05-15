@@ -76,6 +76,15 @@
                         Click="SettingButton_Click">
                     <view:SettingIcon Margin="5,5,5,5"/>
                 </Button>
+                <Button Name="DebugButton"
+                        Background="Transparent" 
+                        Foreground="Transparent"
+                        BorderBrush="Transparent"
+                        Height="auto"
+                        Padding="0,0,0,0"
+                        Command="{Binding DebugUpdateLibrary}">
+                    <view:RepeatIcon Margin="5,5,5,5"/>
+                </Button>
             </StackPanel>
         </DockPanel>
         

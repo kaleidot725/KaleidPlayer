@@ -12,6 +12,7 @@ using kaleidot725.Model;
 using kaleidot725.Model.Library;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace kaleidot725.ViewModel
 {
@@ -104,6 +105,7 @@ namespace kaleidot725.ViewModel
 
         private IObservable<long> _timer;
         private IDisposable _subscription;
+        private Dispatcher _uiDispatcher;
 
         /// <summary>
         /// コンストラクタ
@@ -114,7 +116,11 @@ namespace kaleidot725.ViewModel
             _isPlay = false;
             _nowPlayMusic = new AudioNullDetail();
             _timer = Observable.Interval(TimeSpan.FromMilliseconds(10));
-            _subscription = _timer.Subscribe(i => UpdateTime(),
+            _subscription = _timer.Subscribe(i =>
+            {
+                UpdatePlayerUI();
+
+            },
                ex => Console.WriteLine("OnError({0})", ex.Message),
                () => Console.WriteLine("Completed()"));
 
@@ -125,6 +131,7 @@ namespace kaleidot725.ViewModel
             _albumList = SingletonModels.GetAlbumListInstance();
             _playlist = SingletonModels.GetAudioPlaylist();
             _setting = SingletonModels.GetApplicationSetting();
+            _uiDispatcher = Dispatcher.CurrentDispatcher;
 
             // コマンド作成
             this.ReplayCommand = new DelegateCommand(Replay);
@@ -140,7 +147,7 @@ namespace kaleidot725.ViewModel
         /// <summary>
         /// 時刻更新
         /// </summary>
-        private async void UpdateTime()
+        private void UpdatePlayerUI()
         {
             if (_audioPlayer == null)
             {
@@ -153,33 +160,42 @@ namespace kaleidot725.ViewModel
                 NowPlayMusic = currentAudio;
             }
 
-            // シーク値と現在時刻が違う場合
             if (SeekNow != (int)CurrentTime.TotalSeconds)
             {
                 _audioPlayer.Seek(TimeSpan.FromSeconds(_seekNow));
                 CurrentTime = TimeSpan.FromSeconds(_seekNow);
             }
 
-            // 変化があるときのみ更新する
             if (CurrentTime.TotalSeconds != _audioPlayer.CurrentTime.TotalSeconds)
             {
                 CurrentTime = _audioPlayer.CurrentTime;
                 SeekNow = (int)CurrentTime.TotalSeconds;
             }
 
-            // 変化があるときのみ更新する
             if (TotalTime.TotalSeconds != _audioPlayer.TotalTime.TotalSeconds)
             {
                 TotalTime = _audioPlayer.TotalTime;
                 SeekMax = (int)TotalTime.TotalSeconds;
             }
 
-            // 変化があるときのみ更新する
-            if (IsPlay != _audioPlayer.IsPlay)
+            if (_audioPlayer.PlaybackState == AudioPlaybackState.Playing)
             {
-                IsPlay = _audioPlayer.IsPlay;
+                IsPlay = true;
             }
-        }
+            else
+            {
+                IsPlay = false;
+            }
+
+            if (_audioPlayer.PrePlaybackState == AudioPlaybackState.Playing &&
+                _audioPlayer.PlaybackState == AudioPlaybackState.Stopped )
+            {
+                _uiDispatcher.Invoke(new Action(() =>
+                {
+                    PlayerStoppedEvent();
+                }));
+            }
+         }
 
         /// <summary>
         /// ライブラリ作成
@@ -249,6 +265,14 @@ namespace kaleidot725.ViewModel
             }
         }
 
+        private void PlayerStoppedEvent()
+        {
+            Next();
+        }
+
+        /// <summary>
+        /// 次の曲へ
+        /// </summary>
         private void Next()
         {
             try
@@ -268,6 +292,9 @@ namespace kaleidot725.ViewModel
             }
         }
 
+        /// <summary>
+        /// 前の曲へ
+        /// </summary>
         private void Forward()
         {
             try

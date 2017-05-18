@@ -106,7 +106,8 @@ namespace kaleidot725.Model
                 return;
             }
 
-            if (PlaybackState == AudioPlaybackState.Paused)
+            if (PlaybackState == AudioPlaybackState.Paused ||
+                PlaybackState == AudioPlaybackState.Stopped)
             {
                 this._waveOut.Play();
                 PlaybackState = AudioPlaybackState.Playing;
@@ -259,6 +260,7 @@ namespace kaleidot725.Model
         private void StoppedEvent(object sender, StoppedEventArgs args)
         {
             PlaybackState = AudioPlaybackState.Stopped;
+            _audioStream.Position = 0;
         }
     }
 }

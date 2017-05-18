@@ -26,9 +26,18 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <conv:TimeConverter x:Key="TimeConv"/>
-        <conv:TitleConverter x:Key="TitleConv"/>
+        <ResourceDictionary>
+            <conv:TimeConverter x:Key="TimeConv"/>
+            <conv:TitleConverter x:Key="TitleConv"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -87,10 +96,10 @@
                 </Button>
             </StackPanel>
         </DockPanel>
-        
+
         <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="myFrame" DataContext="{Binding}"
                Loaded="myFrame_Loaded" Navigated="myFrame_Navigated"/>
-        
+
         <Grid Grid.Row="2" Grid.RowSpan="1" Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -164,103 +173,79 @@
                     Command="{Binding ForwardCommand}"
                     Background="Transparent" 
                     Foreground="Transparent"
-                    BorderBrush="Transparent">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border>
-                                        <Grid>
-                                            <view:LeftArrowImage/>
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                    BorderBrush="Transparent"
+                    Padding="0,0,0,0">
+                <view:LeftArrowImage/>
             </Button>
-            <Button Grid.Column="2" 
+            <ToggleButton Grid.Column="2" 
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    Command="{Binding ReplayCommand}" 
-                    Background="Transparent" 
-                    Foreground="Transparent" 
-                    BorderBrush="Transparent">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border>
-                                        <Grid>
-                                            <view:StopImage x:Name="StopImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                            <view:PlayImage x:Name="PlayImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsPlay, UpdateSourceTrigger=PropertyChanged}" Value="true">
-                                            <Setter TargetName="PlayImage" Property="Visibility" Value="Hidden"/>
-                                            <Setter TargetName="StopImage" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsPlay, UpdateSourceTrigger=PropertyChanged}" Value="false">
-                                            <Setter TargetName="PlayImage" Property="Visibility" Value="Visible"/>
-                                            <Setter TargetName="StopImage" Property="Visibility" Value="Hidden"/>
-                                        </DataTrigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    Background="Transparent"
+                    IsChecked="{Binding IsPlay}">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Button x:Name="StopButton" Padding="0,0,0,0" Background="Transparent" BorderBrush="Transparent" Command="{Binding ReplayCommand}">
+                                <view:StopImage  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="PlayButton" Padding="0,0,0,0" Background="Transparent" BorderBrush="Transparent" Command="{Binding ReplayCommand}">
+                                <view:PlayImage  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="StopButton" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="PlayButton" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="StopButton" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="PlayButton" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
             <Button Grid.Column="3" 
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Command="{Binding NextCommand}"
                     Background="Transparent" 
-                    Foreground="Transparent" >
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border>
-                                        <Grid>
-                                            <view:RightArrowImage />
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                    Foreground="Transparent"
+                    BorderBrush="Transparent"
+                    Padding="0,0,0,0">
+                <view:RightArrowImage/>
             </Button>
-            <Button Grid.Column="4" 
+            <ToggleButton Grid.Column="4" 
                     Grid.ColumnSpan="1" 
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    Background="Transparent" 
-                    Foreground="Transparent" >
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border>
-                                        <Grid>
-                                            <view:RepeatIcon />
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    Background="Transparent"
+                    IsChecked="{Binding IsRepeat}">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Button  x:Name="RepeatOFF" Padding="0,0,0,0" Background="Transparent" BorderBrush="Transparent" Command="{Binding RepeatCommand}">
+                                <view:RepeatIcon VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="RepeatON" Padding="0,0,0,0" Background="Transparent" BorderBrush="Transparent" Command="{Binding RepeatCommand}">
+                                <view:RepeatOnceIcon  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="RepeatOFF" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="RepeatON" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="RepeatOFF" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="RepeatON" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
         </Grid>
     </Grid>
 </Window>

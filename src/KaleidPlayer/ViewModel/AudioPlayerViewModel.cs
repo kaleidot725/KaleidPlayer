@@ -24,6 +24,7 @@ namespace kaleidot725.ViewModel
         public DelegateCommand NextCommand { get; }
         public DelegateCommand ForwardCommand { get; }
         public DelegateCommand DebugUpdateLibrary { get; }
+        public DelegateCommand RepeatCommand { get; }
 
         /// <summary>
         /// ファイル名
@@ -43,6 +44,16 @@ namespace kaleidot725.ViewModel
         {
             get { return _isPlay; }
             set { SetProperty(ref _isPlay, value); }
+        }
+
+        /// <summary>
+        /// リピート
+        /// </summary>
+        private bool _isRepeat;
+        public bool IsRepeat
+        {
+            get { return _isRepeat; }
+            set { SetProperty(ref _isRepeat, value); }
         }
 
         /// <summary>
@@ -139,6 +150,7 @@ namespace kaleidot725.ViewModel
             this.NextCommand = new DelegateCommand(Next);
             this.ForwardCommand = new DelegateCommand(Forward);
             this.DebugUpdateLibrary = new DelegateCommand(AsyncCreateLibrary);
+            this.RepeatCommand = new DelegateCommand(ToggleRepeat);
 
             // ライブラリ作成
             AsyncCreateLibrary();
@@ -217,7 +229,7 @@ namespace kaleidot725.ViewModel
         }
 
         /// <summary>
-        /// リプレイ
+        /// 再開
         /// </summary>
         private void Replay()
         {
@@ -246,7 +258,6 @@ namespace kaleidot725.ViewModel
                 {
                     System.Windows.MessageBox.Show("Pause Error.");
                 }
-
             }
         }
 
@@ -265,9 +276,19 @@ namespace kaleidot725.ViewModel
             }
         }
 
+        /// <summary>
+        /// プレイヤー自動停止イベント
+        /// </summary>
         private void PlayerStoppedEvent()
         {
-            Next();
+            if (IsRepeat == true)
+            {
+                Replay();
+            }
+            else
+            {
+                Next();
+            }
         }
 
         /// <summary>
@@ -312,6 +333,12 @@ namespace kaleidot725.ViewModel
             {
                 System.Windows.MessageBox.Show(e.Message);
             }
+        }
+
+        private void ToggleRepeat()
+        {
+            IsRepeat = (true == IsRepeat) ? (false) : (true);
+            return;
         }
     }
 }

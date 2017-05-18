@@ -161,6 +161,9 @@
     <Compile Include="View\Icon\SettingIcon.xaml.cs">
       <DependentUpon>SettingIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Icon\RepeatOnceIcon.xaml.cs">
+      <DependentUpon>RepeatOnceIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SongList\AlbumsPanelView.xaml.cs">
       <DependentUpon>AlbumsPanelView.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Icon\SettingIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icon\RepeatOnceIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

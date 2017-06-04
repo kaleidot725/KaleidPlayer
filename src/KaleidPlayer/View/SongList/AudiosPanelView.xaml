@@ -6,20 +6,42 @@
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:local="clr-namespace:kaleidot725.View"
       xmlns:prism="http://prismlibrary.com/"
+      xmlns:conv="clr-namespace:kaleidot725.ViewModel.Converter"
+      TextOptions.TextRenderingMode="Auto"
+      TextElement.FontWeight="Light"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="AudiosPanelView">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <conv:AutoEnumerator x:Key="AutoEnum"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
         <Grid Height="auto" Width="auto">
-            <ListBox DataContext="{Binding}" ItemsSource="{Binding Audios.Value}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True" >
+            <ListBox x:Name="SongList" DataContext="{Binding}" ItemsSource="{Binding Audios.Value}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding TrackNo}"/>
-                            <TextBlock Text=" "/>
-                            <TextBlock Text="{Binding Title}" />
-                        </StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="16" HorizontalAlignment="Left">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource AutoEnum}">
+                                        <Binding/>
+                                        <Binding ElementName="SongList" Path="ItemsSource"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Title}" FontSize="16"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <i:Interaction.Triggers>

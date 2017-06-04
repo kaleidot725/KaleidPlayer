@@ -30,6 +30,14 @@ namespace kaleidot725.View
         }
 
         /// <summary>
+        /// ページ初期化
+        /// </summary>
+        public void InitPage()
+        {
+            // do nothing
+        }
+
+        /// <summary>
         /// フレーム読み込み
         /// </summary>
         /// <param name="sender"></param>

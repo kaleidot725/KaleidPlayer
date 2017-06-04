@@ -59,6 +59,9 @@ namespace kaleidot725.Model.Library
             }
         }
 
+        /// <summary>
+        /// クリア
+        /// </summary>
         public void Clear()
         {
             Artists.Clear();

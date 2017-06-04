@@ -8,7 +8,7 @@
              d:DesignHeight="320" d:DesignWidth="320">
     <Viewbox>
         <Canvas Width="24" Height="24">
-            <Path Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" Fill="White" />
+            <Path Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z"  Fill="{DynamicResource MaterialDesignBody}" />
         </Canvas>
     </Viewbox>
 </UserControl>

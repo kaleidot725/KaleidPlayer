@@ -24,5 +24,10 @@ namespace kaleidot725.View
         {
             InitializeComponent();
         }
+
+        public void InitPage()
+        {
+            // do nothing
+        }
     }
 }

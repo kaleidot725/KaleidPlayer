@@ -128,15 +128,22 @@ namespace kaleidot725.Model
         /// </summary>
         public override void Parse()
         {
-            List<MetaData> _metaList; _metaList = new List<MetaData>();
+            Stream stream;
+            List<MetaData> metaList = new List<MetaData>();
 
-            var stream = File.Open(FilePath, FileMode.Open);
+            try
+            {
+                stream = File.Open(FilePath, FileMode.Open);
+                CollectMetaData(stream, ref metaList);
+                ParseMetaData(stream, ref metaList);
 
-            CollectMetaData(stream, ref _metaList);
-            ParseMetaData(stream, ref _metaList);
-            _metaList.Clear();
-
-            stream.Dispose();
+                stream.Dispose();
+                metaList.Clear();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>

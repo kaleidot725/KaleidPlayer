@@ -38,6 +38,15 @@ namespace kaleidot725.View
         }
 
         /// <summary>
+        /// ページ初期化
+        /// </summary>
+        public void InitPage()
+        {
+            _currentIndex = pageIndex.ALBUM_PANEL_VIEW;
+            _navi.Navigate(_pageList[(int)_currentIndex]);
+        }
+
+        /// <summary>
         /// フレーム読み込み
         /// </summary>
         /// <param name="sender"></param>
@@ -62,12 +71,10 @@ namespace kaleidot725.View
             if (_currentIndex <= 0)
             {
                 this.backwardButton.Visibility = System.Windows.Visibility.Hidden;
-                this.tabText.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
                 this.backwardButton.Visibility = System.Windows.Visibility.Visible;
-                this.tabText.Visibility = System.Windows.Visibility.Hidden;
             }
 
             return;

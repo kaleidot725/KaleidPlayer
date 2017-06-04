@@ -38,7 +38,7 @@ namespace kaleidot725.ViewModel
             AddPathCommand = new DelegateCommand(AddPath);
             DeletePathCommand = new DelegateCommand(DeletePath);
 
-            LibraryPath.Value.Add("C:\\Users\\K-Y\\Music\\Egoist");
+            LibraryPath.Value.Add("C:\\Users\\K-Y\\Music");
         }
 
         public void AddPath()

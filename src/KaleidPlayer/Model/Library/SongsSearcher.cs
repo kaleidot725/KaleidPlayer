@@ -78,25 +78,19 @@ namespace kaleidot725.Model.Library
 
             foreach (var folder in Folders)
             {
-                // FIXME:フォルダパスを格納する段階でエラーを出せ
-                try
+                List<string> fileList = Directory.GetFiles(folder, "*", System.IO.SearchOption.AllDirectories).ToList();
+                foreach (var file in fileList)
                 {
-                    List<string> fileList = Directory.GetFiles(folder, "*", System.IO.SearchOption.AllDirectories).ToList();
-                    foreach (var file in fileList)
+                    try
                     {
                         var detail = GetAudioDetail(file);
-                        if (detail == null)
-                        {
-                            continue;
-                        }
-
                         detail.Parse();
                         songs.Add(detail);
                     }
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    System.Console.WriteLine("SongSearcher Error");
+                    catch (Exception e)
+                    {
+                        System.Console.WriteLine(e.Message);
+                    }
                 }
             }
 
@@ -120,7 +114,8 @@ namespace kaleidot725.Model.Library
                 case AudioType.Types.Flac:
                     return new AudioFlacDetail(filePath);
                 default:
-                    return null;
+                    var e = new Exception("Not Support Audio File");
+                    throw e;
             }
         }
     }

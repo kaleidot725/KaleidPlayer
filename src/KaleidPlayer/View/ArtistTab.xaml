@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:kaleidot725.ViewModel"
              xmlns:view="clr-namespace:kaleidot725.View"
              mc:Ignorable="d" 
+             TextOptions.TextRenderingMode="Auto"
+             TextElement.FontWeight="Light"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Page.DataContext>
@@ -28,15 +33,7 @@
                         Click="backwardButton_Click">
             <view:LeftArrowIcon Margin="5,5,5,5" Width="20" Height="20"/>
         </Button>
-        <TextBlock Name="tabText" 
-                   Grid.Row="0"
-                   Text="Artist" 
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left" 
-                   FontSize="16"
-                   Foreground="White" 
-                   Background="Transparent"
-                   Margin="10,10,10,10"/>
+
         <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="myFrame"
                Loaded="myFrame_Loaded" Navigated="myFrame_Navigated" MouseLeftButtonUp="myFrame_MouseLeftButtonUp"/>
     </Grid>

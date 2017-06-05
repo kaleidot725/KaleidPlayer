@@ -20,7 +20,7 @@ namespace kaleidot725.ViewModel
         /// モデル
         /// </summary>
         private AudioPlayer _audioPlayer;
-        private AudioSearcher _songsSearcher;
+        private SongSearcher _songsSearcher;
         private ArtistList _aritstList;
         private AlbumList _albumList;
         private AudioPlaylist _playList;
@@ -30,7 +30,7 @@ namespace kaleidot725.ViewModel
         /// </summary>
         public ReactiveProperty<ObservableCollection<ArtistDetail>> Artists { get; private set; }
         public ReactiveProperty<ObservableCollection<AlbumDetail>> Albums { get; private set; }
-        public ReactiveProperty<ObservableCollection<AudioDetailBase>> Audios { get; private set; }
+        public ReactiveProperty<ObservableCollection<IAudioDetail>> Audios { get; private set; }
 
         /// <summary>
         ///  コマンド
@@ -54,8 +54,8 @@ namespace kaleidot725.ViewModel
         /// <summary>
         /// リスト選択した音楽ファイル情報
         /// </summary>
-        private AudioDetailBase _seletedAudio;
-        public AudioDetailBase SeletedAudio
+        private IAudioDetail _seletedAudio;
+        public IAudioDetail SeletedAudio
         {
             get { return _seletedAudio; }
             set { SetProperty(ref _seletedAudio, value); }
@@ -75,7 +75,7 @@ namespace kaleidot725.ViewModel
 
             Artists = _aritstList.ToReactivePropertyAsSynchronized(m => m.Artists).ToReactiveProperty();
             Albums = _albumList.ToReactivePropertyAsSynchronized(m => m.Albums).ToReactiveProperty();
-            Audios = _songsSearcher.ToReactivePropertyAsSynchronized(m => m.Audios).ToReactiveProperty();
+            Audios = _songsSearcher.ToReactivePropertyAsSynchronized(m => m.Song).ToReactiveProperty();
 
             PlayCommand = new DelegateCommand(Play);
         }

@@ -10,7 +10,7 @@ namespace kaleidot725.Model
 {
     public class AudioPlaylist : BindableBase
     {
-        private ObservableCollection<AudioDetailBase> _playlist;
+        private ObservableCollection<IAudioDetail> _playlist;
         private int _index = 0;
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace kaleidot725.Model
         public AudioPlaylist()
         {
             var nullAudio = new AudioNullDetail();
-            _playlist = new ObservableCollection<AudioDetailBase>();
+            _playlist = new ObservableCollection<IAudioDetail>();
             _playlist.Add(nullAudio);
             _index = 0;
             return;
@@ -29,10 +29,10 @@ namespace kaleidot725.Model
         /// 
         /// </summary>
         /// <param name="audio"></param>
-        public void CreatePlaylist(ObservableCollection<AudioDetailBase> playlist, AudioDetailBase setAudio)
+        public void CreatePlaylist(ObservableCollection<IAudioDetail> playlist, IAudioDetail setAudio)
         {
             _index = playlist.IndexOf(setAudio);
-            _playlist = new ObservableCollection<AudioDetailBase>(playlist);
+            _playlist = new ObservableCollection<IAudioDetail>(playlist);
             return;
         }
 
@@ -40,7 +40,7 @@ namespace kaleidot725.Model
         /// 
         /// </summary>
         /// <returns></returns>
-        public AudioDetailBase Current()
+        public IAudioDetail Current()
         {
            return _playlist[_index];
         }
@@ -49,7 +49,7 @@ namespace kaleidot725.Model
         /// 
         /// </summary>
         /// <returns></returns>
-        public AudioDetailBase Next()
+        public IAudioDetail Next()
         {
             var index = _playlist.Count - 1;
             if (_index < index)
@@ -68,7 +68,7 @@ namespace kaleidot725.Model
         /// 
         /// </summary>
         /// <returns></returns>
-        public AudioDetailBase Forward()
+        public IAudioDetail Forward()
         {
             if (0 < _index)
             {

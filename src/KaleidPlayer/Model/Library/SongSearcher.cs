@@ -15,7 +15,7 @@ namespace kaleidot725.Model.Library
     /// <summary>
     /// トラック検索モデル
     /// </summary>
-    public class AudioSearcher : BindableBase
+    public class SongSearcher : BindableBase
     {
 
         /// <summary>
@@ -31,20 +31,20 @@ namespace kaleidot725.Model.Library
         /// <summary>
         /// トラック コレクション
         /// </summary>
-        private ObservableCollection<AudioDetailBase> _audios;
-        public ObservableCollection<AudioDetailBase> Audios
+        private ObservableCollection<IAudioDetail> _song;
+        public ObservableCollection<IAudioDetail> Song
         {
-            get { return _audios; }
-            set { SetProperty(ref _audios, value); }
+            get { return _song; }
+            set { SetProperty(ref _song, value); }
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public AudioSearcher()
+        public SongSearcher()
         {
             Folders = new ObservableCollection<string>();
-            Audios = new ObservableCollection<AudioDetailBase>();
+            Song = new ObservableCollection<IAudioDetail>();
         }
 
         /// <summary>
@@ -70,11 +70,19 @@ namespace kaleidot725.Model.Library
         }
 
         /// <summary>
+        /// 曲削除
+        /// </summary>
+        public void ClearSong()
+        {
+            Song.Clear();
+        }
+
+        /// <summary>
         /// トラック検索
         /// </summary>
-        public async void Search()
+        public void SearchFolder()
         {
-            var songs = new ObservableCollection<AudioDetailBase>();
+            var songs = new ObservableCollection<IAudioDetail>();
 
             foreach (var folder in Folders)
             {
@@ -94,7 +102,7 @@ namespace kaleidot725.Model.Library
                 }
             }
 
-            Audios = songs;
+            Song = songs;
         }
 
         /// <summary>
@@ -102,7 +110,7 @@ namespace kaleidot725.Model.Library
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private AudioDetailBase GetAudioDetail(string filePath)
+        private IAudioDetail GetAudioDetail(string filePath)
         {
             AudioType.Types type = AudioType.ParseAudioType(filePath);
             switch (type)

@@ -42,7 +42,7 @@ namespace kaleidot725.Model.Library
         /// コンストラクタ
         /// </summary>
         /// <param name="name"></param>
-        public ArtistDetail(AudioDetailBase detail)
+        public ArtistDetail(IAudioDetail detail)
         {
             Name = detail.Artist;
             Albums = new ObservableCollection<AlbumDetail>();
@@ -52,7 +52,7 @@ namespace kaleidot725.Model.Library
         /// 追加
         /// </summary>
         /// <param name="albumName"></param>
-        public void AddAlbum(AudioDetailBase detail)
+        public void AddAlbum(IAudioDetail detail)
         {
             AlbumDetail album = null;
             try

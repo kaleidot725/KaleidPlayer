@@ -4,17 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using kaleidot725.Model.Library;
+using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model
 {
     public static class SingletonModels
     {
-        static AudioPlayer _audioPlayer = new AudioPlayer();
-        static AudioSearcher _audioSearcher = new AudioSearcher();
-        static ArtistList _artistList = new ArtistList();
-        static AlbumList _albumList = new AlbumList();
-        static AudioPlaylist _playlist = new AudioPlaylist();
-        static ApplicationSetting _setting = new ApplicationSetting();
+        static AudioPlayer _audioPlayer;  
+        static SongSearcher _songSearcher;
+        static ArtistList _artistList;    
+        static AlbumList _albumList;      
+        static AudioPlaylist _playlist;
+        static ApplicationSetting _setting;
+
+        static SingletonModels()
+        {
+            _audioPlayer = new AudioPlayer();
+            _songSearcher = new SongSearcher();
+            _artistList = new ArtistList();
+            _albumList = new AlbumList();
+            _playlist = new AudioPlaylist();
+            _setting = new ApplicationSetting();
+
+            var collection = new ObservableCollection<AudioSerialzerData>();
+            SongSerializer.Deserialize(System.IO.Directory.GetCurrentDirectory() + "\\meta", ref collection);
+            foreach (var item in collection)
+            {
+                var conv = SongSerializer.Convert(item);
+                _songSearcher.Song.Add(item);
+            }
+
+            _artistList.Create(_songSearcher.Song.ToList());
+            _albumList.Create(_songSearcher.Song.ToList());
+        }
 
         /// <summary>
         /// インスタンス取得
@@ -29,9 +51,9 @@ namespace kaleidot725.Model
         /// インスタンス取得
         /// </summary>
         /// <returns></returns>
-        static public AudioSearcher GetAudioSearcherInstance()
+        static public SongSearcher GetAudioSearcherInstance()
         {
-            return _audioSearcher;
+            return _songSearcher;
         }
 
         /// <summary>
@@ -61,6 +83,10 @@ namespace kaleidot725.Model
             return _playlist;
         }
 
+        /// <summary>
+        /// アプリケーション設定
+        /// </summary>
+        /// <returns></returns>
         static public ApplicationSetting GetApplicationSetting()
         {
             return _setting;

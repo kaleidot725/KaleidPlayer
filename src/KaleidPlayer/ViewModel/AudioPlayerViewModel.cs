@@ -23,7 +23,6 @@ namespace kaleidot725.ViewModel
         public DelegateCommand SeekCommand { get; }
         public DelegateCommand NextCommand { get; }
         public DelegateCommand ForwardCommand { get; }
-        public DelegateCommand DebugUpdateLibrary { get; }
         public DelegateCommand RepeatCommand { get; }
 
         /// <summary>
@@ -100,15 +99,15 @@ namespace kaleidot725.ViewModel
         /// <summary>
         /// 再生している音楽ファイル情報
         /// </summary>
-        private AudioDetailBase _nowPlayMusic;
-        public AudioDetailBase NowPlayMusic
+        private IAudioDetail _nowPlayMusic;
+        public IAudioDetail NowPlayMusic
         {
             get { return _nowPlayMusic; }
             set { SetProperty(ref _nowPlayMusic, value); }
         }
 
         private AudioPlayer _audioPlayer;
-        private AudioSearcher _songsSearcher;
+        private SongSearcher _songsSearcher;
         private ArtistList _artistList;
         private AlbumList _albumList;
         private AudioPlaylist _playlist;
@@ -149,11 +148,7 @@ namespace kaleidot725.ViewModel
             this.SeekCommand = new DelegateCommand(Seek);
             this.NextCommand = new DelegateCommand(Next);
             this.ForwardCommand = new DelegateCommand(Forward);
-            this.DebugUpdateLibrary = new DelegateCommand(AsyncCreateLibrary);
             this.RepeatCommand = new DelegateCommand(ToggleRepeat);
-
-            // ライブラリ作成
-            AsyncCreateLibrary();
         }
 
         /// <summary>
@@ -208,25 +203,6 @@ namespace kaleidot725.ViewModel
                 }));
             }
          }
-
-        /// <summary>
-        /// ライブラリ作成
-        /// </summary>
-        private async void AsyncCreateLibrary()
-        {
-            await Task.Run(() =>
-            {
-                foreach (var path in _setting.LibraryFolder)
-                {
-                    _songsSearcher.AddFolder(path);
-                    _songsSearcher.Search();
-                }
-            });
-
-            _artistList.Clear();
-            _artistList.Create(_songsSearcher.Audios.ToList());
-            _albumList.Create(_songsSearcher.Audios.ToList());
-        }
 
         /// <summary>
         /// 再開
@@ -335,6 +311,9 @@ namespace kaleidot725.ViewModel
             }
         }
 
+        /// <summary>
+        /// リピート
+        /// </summary>
         private void ToggleRepeat()
         {
             IsRepeat = (true == IsRepeat) ? (false) : (true);

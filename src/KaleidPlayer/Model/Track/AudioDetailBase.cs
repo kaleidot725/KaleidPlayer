@@ -14,18 +14,19 @@ namespace kaleidot725.Model
     /// <summary>
     /// オーディオ詳細
     /// </summary>
+    [Serializable]
     public abstract class AudioDetailBase : BindableBase
     {
         private string _title;          // タイトル
         private string _artist;         // アーティスト
         private string _album;          // アルバム
-        private string _date;             // 西暦
-        private string _trackNo;          // トラックNo
+        private string _date;           // 西暦
+        private string _trackNo;        // トラックNo
         private string _genle;          // ジャンル
         private string _comment;        // コメント
         private string _albumArtist;    // アルバムアーティスト
         private string _composer;       // 作曲者
-        private string _discnumber;       // ディスクナンバー
+        private string _discnumber;     // ディスクナンバー
         private string _filePath;       // ファイルパス
         
         /// <summary>

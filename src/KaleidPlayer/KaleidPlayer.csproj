@@ -124,6 +124,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\IAudioDetail.cs" />
+    <Compile Include="Model\Library\SongSerializer.cs" />
     <Compile Include="Model\Setting\ApplicationSetting.cs" />
     <Compile Include="Model\Library\AlbumDetail.cs" />
     <Compile Include="Model\Library\AlbumList.cs" />
@@ -133,10 +135,11 @@
     <Compile Include="Model\SingletonModels.cs" />
     <Compile Include="Model\Track\AudioDetailBase.cs" />
     <Compile Include="Model\Track\AudioFlacDetail.cs" />
-    <Compile Include="Model\Library\SongsSearcher.cs" />
+    <Compile Include="Model\Library\SongSearcher.cs" />
     <Compile Include="Model\Track\AudioMp3Detail.cs" />
     <Compile Include="Model\Player\AudioPlayer.cs" />
     <Compile Include="Model\Track\AudioNullDetail.cs" />
+    <Compile Include="Model\Track\AudioSerialzerData.cs" />
     <Compile Include="ViewModel\AlbumTabViewModel.cs" />
     <Compile Include="ViewModel\ArtistTabViewModel.cs" />
     <Compile Include="ViewModel\Converter\AutoEnumerator.cs" />

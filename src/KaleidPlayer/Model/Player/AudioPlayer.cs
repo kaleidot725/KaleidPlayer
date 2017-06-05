@@ -74,7 +74,7 @@ namespace kaleidot725.Model
         /// <summary>
         /// プレイ
         /// </summary>
-        public void Play(AudioDetailBase audio)
+        public void Play(IAudioDetail audio)
         {
             if (audio == null)
             {

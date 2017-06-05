@@ -24,7 +24,7 @@ namespace kaleidot725.ViewModel.Converter
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            AudioDetailBase audio = (AudioDetailBase)value;
+            IAudioDetail audio = (IAudioDetail)value;
             string title = string.Format("{0}", audio.Title, audio.Artist);
             if (25 < title.Length)
             {

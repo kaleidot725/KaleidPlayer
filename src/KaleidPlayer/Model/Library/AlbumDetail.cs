@@ -36,8 +36,8 @@ namespace kaleidot725.Model.Library
         /// <summary>
         /// 曲情報
         /// </summary>
-        private ObservableCollection<AudioDetailBase> _auidos;
-        public ObservableCollection<AudioDetailBase> Audios
+        private ObservableCollection<IAudioDetail> _auidos;
+        public ObservableCollection<IAudioDetail> Audios
         {
             get { return _auidos; }
             private set { SetProperty(ref _auidos, value); }
@@ -47,17 +47,17 @@ namespace kaleidot725.Model.Library
         /// コンストラクタ
         /// </summary>
         /// <param name="name"></param>
-        public AlbumDetail(AudioDetailBase detail)
+        public AlbumDetail(IAudioDetail detail)
         {
             Name = detail.Album;
-            Audios = new ObservableCollection<AudioDetailBase>();
+            Audios = new ObservableCollection<IAudioDetail>();
         }
 
         /// <summary>
         /// 追加
         /// </summary>
         /// <param name="audio"></param>
-        public void AddAudio(AudioDetailBase audio)
+        public void AddAudio(IAudioDetail audio)
         {
             Audios.Add(audio);
         }

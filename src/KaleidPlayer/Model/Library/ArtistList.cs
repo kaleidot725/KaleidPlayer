@@ -35,7 +35,7 @@ namespace kaleidot725.Model.Library
         /// リスト作成
         /// </summary>
         /// <param name="songs"></param>
-        public void Create(List<AudioDetailBase> songs)
+        public void Create(List<IAudioDetail> songs)
         {
             foreach (var song in songs)
             {

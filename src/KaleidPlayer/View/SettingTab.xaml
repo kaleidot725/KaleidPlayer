@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:kaleidot725.ViewModel"
              xmlns:vm="clr-namespace:kaleidot725.ViewModel"
+             xmlns:view="clr-namespace:kaleidot725.View"
              TextOptions.TextRenderingMode="Auto"
              TextElement.FontWeight="Light"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -21,6 +22,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -31,12 +33,10 @@
             <TextBlock Grid.Row="1" 
                        Text="Library Path" 
                        Grid.Column="0" 
-                       Grid.ColumnSpan="3" 
-                       FontSize="13"
+                       FontSize="16"
                        Foreground="{DynamicResource MaterialDesignBody}"/>
             <Button Grid.Row="1" 
-                    Grid.Column="1" 
-                    Grid.ColumnSpan="1" 
+                    Grid.Column="1"
                     Padding="0,0,0,0" 
                     BorderBrush="Transparent" 
                     Background="Transparent" 
@@ -46,7 +46,6 @@
                     Command="{Binding AddPathCommand}"/>
             <Button Grid.Row="1" 
                     Grid.Column="2" 
-                    Grid.ColumnSpan="1" 
                     Padding="0,0,0,0" 
                     BorderBrush="Transparent" 
                     Background="Transparent" 
@@ -55,11 +54,22 @@
                     Content="-" 
                     HorizontalAlignment="Right" 
                     Command="{Binding DeletePathCommand}"/>
+            <Button Grid.Row="1"
+                    Grid.Column="3"
+                    Padding="0,0,0,0" 
+                    BorderBrush="Transparent" 
+                    Background="Transparent" 
+                    Height="20" 
+                    Width="20" 
+                    Command="{Binding UpdateLibraryCommand}">
+                <view:RepeatIcon Margin="2"/>
+            </Button>
             <ListBox Grid.Row="2" 
                       Grid.Column="0" 
-                      Grid.ColumnSpan="3" 
+                      Grid.ColumnSpan="4" 
                       Height="100" 
                       Background="Transparent"
+                      FontSize="16"
                       BorderBrush="{DynamicResource MaterialDesignBody}"
                       ItemsSource="{Binding LibraryPath.Value}"
                       SelectedItem="{Binding SelectedPath}">

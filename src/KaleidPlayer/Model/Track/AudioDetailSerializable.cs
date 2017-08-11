@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace kaleidot725.Model
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Serializable]
-    public class AudioSerialzerData : IAudioDetail
+    public class AudioDetailSerializable
     {
         /// <summary>
         /// タイトル
@@ -67,7 +64,7 @@ namespace kaleidot725.Model
         /// </summary>
         public string FilePath { get; set; }
 
-        public AudioSerialzerData(IAudioDetail detail)
+        public AudioDetailSerializable(IAudioDetail detail)
         {
             this.Title = detail.Title;
             this.Artist = detail.Artist;
@@ -80,14 +77,6 @@ namespace kaleidot725.Model
             this.Composer = detail.Composer;
             this.DiscNumber = detail.DiscNumber;
             this.FilePath = detail.FilePath;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Parse()
-        {
-
         }
     }
 }

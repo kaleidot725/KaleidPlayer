@@ -39,7 +39,7 @@
                 <TextBlock Text="{Binding SeletedAlbum.Name}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"/>
             </StackPanel>
 
-            <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  ItemsSource="{Binding SeletedAlbum.Audios}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True">
+            <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  ItemsSource="{Binding SeletedAlbum.Tracks}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

@@ -16,15 +16,14 @@ namespace kaleidot725.ViewModel
 {
     class SongTabViewModel :BindableBase
     {
-        private AudioPlayer _audioPlayer;
-        private SongSearcher _songsSearcher;
-        private ArtistList _aritstList;
-        private AlbumList _albumList;
-        private AudioPlaylist _playList;
+        private Player player;
+        private Searcher searcher;
+        private AudioLibrary library;
+        private Playlist playlist;
 
-        public ReactiveProperty<ObservableCollection<ArtistDetail>> Artists { get; private set; }
-        public ReactiveProperty<ObservableCollection<AlbumDetail>> Albums { get; private set; }
-        public ReactiveProperty<ObservableCollection<IAudioDetail>> Audios { get; private set; }
+        public ReadOnlyReactiveProperty<ObservableCollection<IArtist>> Artists { get; private set; }
+        public ReadOnlyReactiveProperty<ObservableCollection<IAlbum>> Albums { get; private set; }
+        public ReadOnlyReactiveProperty<ObservableCollection<IAudioDetail>> Audios { get; private set; }
 
         /// <summary>
         ///  コマンド
@@ -34,11 +33,11 @@ namespace kaleidot725.ViewModel
         /// <summary>
         /// リスト選択した音楽ファイル情報
         /// </summary>
-        private IAudioDetail _seletedAudio;
-        public IAudioDetail SeletedAudio
+        private IAudioDetail selectedAudio;
+        public IAudioDetail SelectedAudio
         {
-            get { return _seletedAudio; }
-            set { SetProperty(ref _seletedAudio, value); }
+            get { return selectedAudio; }
+            set { SetProperty(ref selectedAudio, value); }
         }
 
         /// <summary>
@@ -47,16 +46,14 @@ namespace kaleidot725.ViewModel
         public SongTabViewModel()
         {
             // 初期化
-            _audioPlayer = SingletonModels.GetAudioPlayerInstance();
-            _songsSearcher = SingletonModels.GetAudioSearcherInstance();
-            _aritstList = SingletonModels.GetArtistListInstance();
-            _albumList = SingletonModels.GetAlbumListInstance();
-            _playList = SingletonModels.GetAudioPlaylist();
+            player = SingletonModels.GetAudioPlayerInstance();
+            searcher = SingletonModels.GetAudioSearcherInstance();
+            library = SingletonModels.GetArtistListInstance();
+            playlist = SingletonModels.GetAudioPlaylist();
 
-            Artists = _aritstList.ToReactivePropertyAsSynchronized(m => m.Artists).ToReactiveProperty();
-            Albums = _albumList.ToReactivePropertyAsSynchronized(m => m.Albums).ToReactiveProperty();
-            Audios = _songsSearcher.ToReactivePropertyAsSynchronized(m => m.Song).ToReactiveProperty();
-
+            Artists = library.ToReactivePropertyAsSynchronized(m => m.Artists).ToReadOnlyReactiveProperty();
+            Albums = library.ToReactivePropertyAsSynchronized(m => m.Albums).ToReadOnlyReactiveProperty();
+            Audios = library.ToReactivePropertyAsSynchronized(m => m.Audios).ToReadOnlyReactiveProperty();
             PlayCommand = new DelegateCommand(Play);
         }
 
@@ -67,13 +64,13 @@ namespace kaleidot725.ViewModel
         {
             try
             {
-                _playList.CreatePlaylist(Audios.Value, SeletedAudio);
-                var playAudio = _playList.Current();
+                playlist.Create(Audios.Value);
+                playlist.SetPosition(SelectedAudio);
 
-                _audioPlayer.Dispose();
-                _audioPlayer.Play(playAudio);
+                player.Dispose();
+                player.Play(playlist.Current());
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
             {
                 System.Windows.MessageBox.Show("Play Error.");
             }

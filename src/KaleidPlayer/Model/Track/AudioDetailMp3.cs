@@ -476,7 +476,6 @@ namespace kaleidot725.Model
             if (preamble.Length < input.Length)
             {
                 int count = 0;
-                bool ret = true;
 
                 foreach (var c in preamble)
                 {

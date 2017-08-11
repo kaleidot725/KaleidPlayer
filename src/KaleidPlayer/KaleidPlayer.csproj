@@ -124,22 +124,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Common\AudioTypes.cs" />
     <Compile Include="Model\IAudioDetail.cs" />
-    <Compile Include="Model\Library\SongSerializer.cs" />
-    <Compile Include="Model\Setting\ApplicationSetting.cs" />
-    <Compile Include="Model\Library\AlbumDetail.cs" />
-    <Compile Include="Model\Library\AlbumList.cs" />
-    <Compile Include="Model\Library\ArtistDetail.cs" />
-    <Compile Include="Model\Library\ArtistList.cs" />
-    <Compile Include="Model\Player\AudioPlaylist.cs" />
+    <Compile Include="Model\Library\IAlbum.cs" />
+    <Compile Include="Model\Library\IArtist.cs" />
+    <Compile Include="Model\Library\AudioSerializer.cs" />
+    <Compile Include="Model\Player\PlaybackTypes.cs" />
+    <Compile Include="Model\Common\WaveStreamFactory.cs" />
+    <Compile Include="Model\Setting\Setting.cs" />
+    <Compile Include="Model\Library\Album.cs" />
+    <Compile Include="Model\Library\Artist.cs" />
+    <Compile Include="Model\Library\AudioLibrary.cs" />
+    <Compile Include="Model\Player\Playlist.cs" />
     <Compile Include="Model\SingletonModels.cs" />
-    <Compile Include="Model\Track\AudioDetailBase.cs" />
-    <Compile Include="Model\Track\AudioFlacDetail.cs" />
-    <Compile Include="Model\Library\SongSearcher.cs" />
-    <Compile Include="Model\Track\AudioMp3Detail.cs" />
-    <Compile Include="Model\Player\AudioPlayer.cs" />
-    <Compile Include="Model\Track\AudioNullDetail.cs" />
-    <Compile Include="Model\Track\AudioSerialzerData.cs" />
+    <Compile Include="Model\Common\AudioDetailFactory.cs" />
+    <Compile Include="Model\Track\AudioDetailFlac.cs" />
+    <Compile Include="Model\Library\AudioSearcher.cs" />
+    <Compile Include="Model\Track\AudioDetailMp3.cs" />
+    <Compile Include="Model\Player\Player.cs" />
+    <Compile Include="Model\Track\AudioDetailNull.cs" />
+    <Compile Include="Model\Track\AudioDetailSerializable.cs" />
     <Compile Include="ViewModel\AlbumTabViewModel.cs" />
     <Compile Include="ViewModel\ArtistTabViewModel.cs" />
     <Compile Include="ViewModel\Converter\AutoEnumerator.cs" />
@@ -219,10 +223,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Common\AudioType.cs" />
-    <Compile Include="Model\Track\AudioWaveDetail.cs" />
-    <Compile Include="Model\Collection\CollectionBasedDictionary.cs" />
-    <Compile Include="Model\Collection\ObservableDictionary.cs" />
+    <Compile Include="Model\Common\AudioFileParser.cs" />
+    <Compile Include="Model\Track\AudioDetailWave.cs" />
     <Compile Include="Model\Track\VorbisComment.cs" />
     <Compile Include="ViewModel\AudioPlayerViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

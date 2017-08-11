@@ -5,91 +5,87 @@ using System.Text;
 using System.Threading.Tasks;
 using kaleidot725.Model.Library;
 using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace kaleidot725.Model
 {
     public static class SingletonModels
     {
-        static AudioPlayer _audioPlayer;  
-        static SongSearcher _songSearcher;
-        static ArtistList _artistList;    
-        static AlbumList _albumList;      
-        static AudioPlaylist _playlist;
-        static ApplicationSetting _setting;
+        static Player player;  
+        static Searcher searcher;
+        static AudioLibrary library;    
+        static Playlist playlist;
+        static Setting setting;
 
         static SingletonModels()
         {
-            _audioPlayer = new AudioPlayer();
-            _songSearcher = new SongSearcher();
-            _artistList = new ArtistList();
-            _albumList = new AlbumList();
-            _playlist = new AudioPlaylist();
-            _setting = new ApplicationSetting();
+            player = new Player();
+            searcher = new Searcher();
+            library = new AudioLibrary();
+            playlist = new Playlist();
+            setting = new Setting();
 
-            var collection = new ObservableCollection<AudioSerialzerData>();
-            SongSerializer.Deserialize(System.IO.Directory.GetCurrentDirectory() + "\\meta", ref collection);
-            foreach (var item in collection)
+            try
             {
-                var conv = SongSerializer.Convert(item);
-                _songSearcher.Song.Add(item);
+                var collection = AudioSerializer.Deserialize(System.IO.Directory.GetCurrentDirectory() + "\\meta");
+                var convCollection = new List<IAudioDetail>();
+                foreach (var i in collection)
+                {
+                    var conv = AudioSerializer.Convert(i);
+                    convCollection.Add(conv);
+                }
+
+                library.Create(convCollection);
             }
+            catch (Exception)
+            {
 
-            _artistList.Create(_songSearcher.Song.ToList());
-            _albumList.Create(_songSearcher.Song.ToList());
+            }
         }
 
         /// <summary>
         /// インスタンス取得
         /// </summary>
         /// <returns></returns>
-        static public AudioPlayer GetAudioPlayerInstance()
+        static public Player GetAudioPlayerInstance()
         {
-            return _audioPlayer;
+            return player;
         }
 
         /// <summary>
         /// インスタンス取得
         /// </summary>
         /// <returns></returns>
-        static public SongSearcher GetAudioSearcherInstance()
+        static public Searcher GetAudioSearcherInstance()
         {
-            return _songSearcher;
+            return searcher;
         }
 
         /// <summary>
         /// インスタンス取得
         /// </summary>
         /// <returns></returns>
-        static public ArtistList GetArtistListInstance()
+        static public AudioLibrary GetArtistListInstance()
         {
-            return _artistList;
+            return library;
         }
 
         /// <summary>
         /// インスタンス取得
         /// </summary>
         /// <returns></returns>
-        static public AlbumList GetAlbumListInstance()
+        static public Playlist GetAudioPlaylist()
         {
-            return _albumList;
-        }
-
-        /// <summary>
-        /// インスタンス取得
-        /// </summary>
-        /// <returns></returns>
-        static public AudioPlaylist GetAudioPlaylist()
-        {
-            return _playlist;
+            return playlist;
         }
 
         /// <summary>
         /// アプリケーション設定
         /// </summary>
         /// <returns></returns>
-        static public ApplicationSetting GetApplicationSetting()
+        static public Setting GetApplicationSetting()
         {
-            return _setting;
+            return setting;
         }
     }
 }

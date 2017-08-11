@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using NAudio.Flac;
-using Prism.Mvvm;
+using System.Text;
 
 namespace kaleidot725.Model
 {

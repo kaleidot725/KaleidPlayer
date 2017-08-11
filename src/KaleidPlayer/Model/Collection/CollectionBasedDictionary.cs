@@ -7,11 +7,6 @@ using System.Collections.ObjectModel;
 
 namespace kaleidot725.Collection
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
     public class CollectionBasedDictionary<TKey, TValue> : KeyedCollection<TKey, KeyValuePair<TKey, TValue>>
     {
         protected override TKey GetKeyForItem(KeyValuePair<TKey, TValue> item)

@@ -71,7 +71,7 @@
                       Background="Transparent"
                       FontSize="16"
                       BorderBrush="{DynamicResource MaterialDesignBody}"
-                      ItemsSource="{Binding LibraryPath.Value}"
+                      ItemsSource="{Binding Directories.Value}"
                       SelectedItem="{Binding SelectedPath}">
             </ListBox>
         </Grid>

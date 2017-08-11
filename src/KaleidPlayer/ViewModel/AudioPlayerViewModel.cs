@@ -28,94 +28,93 @@ namespace kaleidot725.ViewModel
         /// <summary>
         /// ファイル名
         /// </summary>
-        private string _fileName;
+        private string fileName;
         public string FileName
         {
-            get { return _fileName; }
-            set { SetProperty(ref _fileName, value); }
+            get { return fileName; }
+            set { SetProperty(ref fileName, value); }
         }
 
         /// <summary>
         /// 再生状態
         /// </summary>
-        private bool _isPlay;
+        private bool isPlay;
         public bool IsPlay
         {
-            get { return _isPlay; }
-            set { SetProperty(ref _isPlay, value); }
+            get { return isPlay; }
+            set { SetProperty(ref isPlay, value); }
         }
 
         /// <summary>
         /// リピート
         /// </summary>
-        private bool _isRepeat;
+        private bool isRepeat;
         public bool IsRepeat
         {
-            get { return _isRepeat; }
-            set { SetProperty(ref _isRepeat, value); }
+            get { return isRepeat; }
+            set { SetProperty(ref isRepeat, value); }
         }
 
         /// <summary>
         /// シーク現在位置
         /// </summary>
-        private int _seekNow;
+        private int seekNow;
         public int SeekNow
         {
-            get { return _seekNow; }
-            set { SetProperty(ref _seekNow, value); }
+            get { return seekNow; }
+            set { SetProperty(ref seekNow, value); }
         }
 
         /// <summary>
         /// シーク最大値
         /// </summary>
-        private int _seekMax;
+        private int seekMax;
         public int SeekMax
         {
-            get { return _seekMax; }
-            set { SetProperty(ref _seekMax, value); }
+            get { return seekMax; }
+            set { SetProperty(ref seekMax, value); }
         }
 
         /// <summary>
         /// 音楽ファイル 再生位置
         /// </summary>
-        private TimeSpan _currentTime;
+        private TimeSpan currentTime;
         public TimeSpan CurrentTime
         {
-            get { return _currentTime; }
-            set { SetProperty(ref _currentTime, value); }
+            get { return currentTime; }
+            set { SetProperty(ref currentTime, value); }
         }
 
         /// <summary>
         /// 音声ファイル 合計時間
         /// </summary>
-        private TimeSpan _totaltime;
+        private TimeSpan totalTime;
         public TimeSpan TotalTime
         {
-            get { return _totaltime; }
-            set { SetProperty(ref _totaltime, value); }
+            get { return totalTime; }
+            set { SetProperty(ref totalTime, value); }
         }
 
 
         /// <summary>
         /// 再生している音楽ファイル情報
         /// </summary>
-        private IAudioDetail _nowPlayMusic;
+        private IAudioDetail nowPlayMusic;
         public IAudioDetail NowPlayMusic
         {
-            get { return _nowPlayMusic; }
-            set { SetProperty(ref _nowPlayMusic, value); }
+            get { return nowPlayMusic; }
+            set { SetProperty(ref nowPlayMusic, value); }
         }
 
-        private AudioPlayer _audioPlayer;
-        private SongSearcher _songsSearcher;
-        private ArtistList _artistList;
-        private AlbumList _albumList;
-        private AudioPlaylist _playlist;
-        private ApplicationSetting _setting;
+        private Player player;
+        private Searcher searcher;
+        private AudioLibrary library;
+        private Playlist playlist;
+        private Setting setting;
 
-        private IObservable<long> _timer;
-        private IDisposable _subscription;
-        private Dispatcher _uiDispatcher;
+        private IObservable<long> timer;
+        private IDisposable subscription;
+        private Dispatcher dispatcher;
 
         /// <summary>
         /// コンストラクタ
@@ -123,10 +122,10 @@ namespace kaleidot725.ViewModel
         public AudioPlayerViewModel()
         {
             // 再生状態
-            _isPlay = false;
-            _nowPlayMusic = new AudioNullDetail();
-            _timer = Observable.Interval(TimeSpan.FromMilliseconds(10));
-            _subscription = _timer.Subscribe(i =>
+            isPlay = false;
+            nowPlayMusic = new AudioNullDetail();
+            timer = Observable.Interval(TimeSpan.FromMilliseconds(10));
+            subscription = timer.Subscribe(i =>
             {
                 UpdatePlayerUI();
 
@@ -135,13 +134,12 @@ namespace kaleidot725.ViewModel
                () => Console.WriteLine("Completed()"));
 
             // ライブラリ群
-            _audioPlayer = SingletonModels.GetAudioPlayerInstance();
-            _songsSearcher = SingletonModels.GetAudioSearcherInstance();
-            _artistList = SingletonModels.GetArtistListInstance();
-            _albumList = SingletonModels.GetAlbumListInstance();
-            _playlist = SingletonModels.GetAudioPlaylist();
-            _setting = SingletonModels.GetApplicationSetting();
-            _uiDispatcher = Dispatcher.CurrentDispatcher;
+            player = SingletonModels.GetAudioPlayerInstance();
+            searcher = SingletonModels.GetAudioSearcherInstance();
+            library = SingletonModels.GetArtistListInstance();
+            playlist = SingletonModels.GetAudioPlaylist();
+            setting = SingletonModels.GetApplicationSetting();
+            dispatcher = Dispatcher.CurrentDispatcher;
 
             // コマンド作成
             this.ReplayCommand = new DelegateCommand(Replay);
@@ -156,36 +154,36 @@ namespace kaleidot725.ViewModel
         /// </summary>
         private void UpdatePlayerUI()
         {
-            if (_audioPlayer == null)
+            if (player == null)
             {
                 return;
             }
 
-            var currentAudio = _playlist.Current();
-            if (_nowPlayMusic.Equals(currentAudio) != true)
+            var currentAudio = playlist.Current();
+            if (nowPlayMusic.Equals(currentAudio) != true)
             {
                 NowPlayMusic = currentAudio;
             }
 
             if (SeekNow != (int)CurrentTime.TotalSeconds)
             {
-                _audioPlayer.Seek(TimeSpan.FromSeconds(_seekNow));
-                CurrentTime = TimeSpan.FromSeconds(_seekNow);
+                player.Seek(TimeSpan.FromSeconds(seekNow));
+                CurrentTime = TimeSpan.FromSeconds(seekNow);
             }
 
-            if (CurrentTime.TotalSeconds != _audioPlayer.CurrentTime.TotalSeconds)
+            if (CurrentTime.TotalSeconds != player.CurrentTime.TotalSeconds)
             {
-                CurrentTime = _audioPlayer.CurrentTime;
+                CurrentTime = player.CurrentTime;
                 SeekNow = (int)CurrentTime.TotalSeconds;
             }
 
-            if (TotalTime.TotalSeconds != _audioPlayer.TotalTime.TotalSeconds)
+            if (TotalTime.TotalSeconds != player.TotalTime.TotalSeconds)
             {
-                TotalTime = _audioPlayer.TotalTime;
+                TotalTime = player.TotalTime;
                 SeekMax = (int)TotalTime.TotalSeconds;
             }
 
-            if (_audioPlayer.PlaybackState == AudioPlaybackState.Playing)
+            if (player.PlaybackState == PlaybackState.Playing)
             {
                 IsPlay = true;
             }
@@ -194,10 +192,10 @@ namespace kaleidot725.ViewModel
                 IsPlay = false;
             }
 
-            if (_audioPlayer.PrePlaybackState == AudioPlaybackState.Playing &&
-                _audioPlayer.PlaybackState == AudioPlaybackState.Stopped )
+            if (player.PrePlaybackState == PlaybackState.Playing &&
+                player.PlaybackState == PlaybackState.Stopped )
             {
-                _uiDispatcher.Invoke(new Action(() =>
+                dispatcher.Invoke(new Action(() =>
                 {
                     PlayerStoppedEvent();
                 }));
@@ -209,17 +207,17 @@ namespace kaleidot725.ViewModel
         /// </summary>
         private void Replay()
         {
-            if (_isPlay == false)
+            if (isPlay == false)
             {
                 try
                 {
-                    _audioPlayer.Replay();
+                    player.Replay();
                 }
-                catch (System.IO.FileNotFoundException e)
+                catch (System.IO.FileNotFoundException)
                 {
                     System.Windows.MessageBox.Show("Replay Error.");
                 }
-                catch (NullReferenceException e)
+                catch (NullReferenceException)
                 {
                     System.Windows.MessageBox.Show("Replay Error.");
                 }
@@ -228,9 +226,9 @@ namespace kaleidot725.ViewModel
             {
                 try
                 {
-                    _audioPlayer.Pause();
+                    player.Pause();
                 }
-                catch (System.IO.FileNotFoundException e)
+                catch (System.IO.FileNotFoundException)
                 {
                     System.Windows.MessageBox.Show("Pause Error.");
                 }
@@ -244,9 +242,9 @@ namespace kaleidot725.ViewModel
         {
             try
             {
-                _audioPlayer.Seek(TimeSpan.FromSeconds(_seekNow));
+                player.Seek(TimeSpan.FromSeconds(seekNow));
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
             {
                 System.Windows.MessageBox.Show("Seek Error.");
             }
@@ -274,12 +272,12 @@ namespace kaleidot725.ViewModel
         {
             try
             {
-                _audioPlayer.Dispose();
+                player.Dispose();
 
-                var nextAudio = _playlist.Next();
-                _audioPlayer.Play(nextAudio);
+                var nextAudio = playlist.Next();
+                player.Play(nextAudio);
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
             {
                 System.Windows.MessageBox.Show("Play Error.");
             }
@@ -296,12 +294,12 @@ namespace kaleidot725.ViewModel
         {
             try
             {
-                _audioPlayer.Dispose();
+                player.Dispose();
 
-                var forwardAudio = _playlist.Forward();
-                _audioPlayer.Play(forwardAudio);
+                var forwardAudio = playlist.Forward();
+                player.Play(forwardAudio);
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
             {
                 System.Windows.MessageBox.Show("Play Error.");
             }

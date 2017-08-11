@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
-using System.IO;
-using System.Timers;
-using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model
 {
     /// <summary>
-    /// オーディオ詳細
+    /// NULLオブジェクト
     /// </summary>
-    [Serializable]
-    public abstract class AudioDetailBase : BindableBase
+    public class AudioNullDetail : BindableBase, IAudioDetail
     {
+
         private string _title;          // タイトル
         private string _artist;         // アーティスト
         private string _album;          // アルバム
@@ -28,7 +24,7 @@ namespace kaleidot725.Model
         private string _composer;       // 作曲者
         private string _discnumber;     // ディスクナンバー
         private string _filePath;       // ファイルパス
-        
+
         /// <summary>
         /// タイトル
         /// </summary>
@@ -129,8 +125,19 @@ namespace kaleidot725.Model
         }
 
         /// <summary>
-        /// ファイルパーサ
+        /// コンストラクタ
         /// </summary>
-        abstract public void Parse();
+        public AudioNullDetail()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// パース
+        /// </summary>
+        public void Parse()
+        {
+            return;
+        }
     }
 }

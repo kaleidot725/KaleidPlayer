@@ -24,7 +24,7 @@
 
     <Grid>
         <Grid Height="auto" Width="auto">
-            <ListBox x:Name="SongList" DataContext="{Binding}" ItemsSource="{Binding Audios.Value}" SelectedItem="{Binding SeletedAudio}" IsEnabled="True" >
+            <ListBox x:Name="SongList" DataContext="{Binding}" ItemsSource="{Binding Audios.Value}" SelectedItem="{Binding SelectedAudio}" IsEnabled="True" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

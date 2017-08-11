@@ -18,47 +18,42 @@ namespace kaleidot725.ViewModel
 {
     class SettingTabViewModel : BindableBase
     {
+        private Player player;
+        private Searcher searcher;
+        private AudioLibrary library;
+        private Playlist playlist;
+        private Setting setting;
+        private Dispatcher uiDispatcher;
 
-        private string _selectedPath;
-        public string SelectedPath
-        {
-            get { return _selectedPath; }
-            set { SetProperty(ref _selectedPath, value); }
-        }
-
-        public ReactiveProperty<ObservableCollection<string>> LibraryPath { get; private set; }
-        public DelegateCommand AddPathCommand { get;}
+        public ReactiveProperty<ObservableCollection<string>> Directories { get; private set; }
+        public DelegateCommand AddPathCommand { get; }
         public DelegateCommand DeletePathCommand { get; }
         public DelegateCommand UpdateLibraryCommand { get; }
 
-
-        private AudioPlayer _audioPlayer;
-        private SongSearcher _songsSearcher;
-        private ArtistList _artistList;
-        private AlbumList _albumList;
-        private AudioPlaylist _playlist;
-        private ApplicationSetting _setting;
-        private Dispatcher _uiDispatcher;
+        private string selectedPath;
+        public string SelectedPath
+        {
+            get { return selectedPath; }
+            set { SetProperty(ref selectedPath, value); }
+        }
 
         public SettingTabViewModel()
         {
             // ライブラリ群
-            _audioPlayer = SingletonModels.GetAudioPlayerInstance();
-            _songsSearcher = SingletonModels.GetAudioSearcherInstance();
-            _artistList = SingletonModels.GetArtistListInstance();
-            _albumList = SingletonModels.GetAlbumListInstance();
-            _playlist = SingletonModels.GetAudioPlaylist();
-            _setting = SingletonModels.GetApplicationSetting();
-            _uiDispatcher = Dispatcher.CurrentDispatcher;
-            _setting = SingletonModels.GetApplicationSetting();
+            player = SingletonModels.GetAudioPlayerInstance();
+            searcher = SingletonModels.GetAudioSearcherInstance();
+            library = SingletonModels.GetArtistListInstance();
+            playlist = SingletonModels.GetAudioPlaylist();
+            setting = SingletonModels.GetApplicationSetting();
+            uiDispatcher = Dispatcher.CurrentDispatcher;
+            setting = SingletonModels.GetApplicationSetting();
 
-            LibraryPath = _setting.ToReactivePropertyAsSynchronized(m => m.LibraryFolder).ToReactiveProperty();
+            Directories = setting.ToReactivePropertyAsSynchronized(m => m.LibraryDirectories).ToReactiveProperty();
 
             AddPathCommand = new DelegateCommand(AddPath);
             DeletePathCommand = new DelegateCommand(DeletePath);
             UpdateLibraryCommand = new DelegateCommand(AsyncCreateLibrary);
-
-            LibraryPath.Value.Add("C:\\Users\\K-Y\\Music");
+            Directories.Value.Add("C:\\Users\\K-Y\\Music");
         }
 
         public void AddPath()
@@ -67,22 +62,22 @@ namespace kaleidot725.ViewModel
             browser.RootFolder = System.Environment.SpecialFolder.MyComputer;
             if (browser.ShowDialog() == DialogResult.OK)
             {
-                LibraryPath.Value.Add(browser.SelectedPath);
-            } 
+                Directories.Value.Add(browser.SelectedPath);
+            }
         }
 
         public void DeletePath()
         {
-            if (_selectedPath == null)
+            if (selectedPath == null)
             {
                 return;
             }
 
             try
             {
-                LibraryPath.Value.Remove(_selectedPath);
+                Directories.Value.Remove(selectedPath);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 System.Windows.MessageBox.Show("Remove Error");
             }
@@ -93,37 +88,23 @@ namespace kaleidot725.ViewModel
         /// </summary>
         private async void AsyncCreateLibrary()
         {
-            _songsSearcher.ClearSong();
-            _songsSearcher.ClearFolder();
-            _artistList.Clear();
-            _albumList.Clear();
+            ObservableCollection<IAudioDetail> audios = null;
 
+            library.Delete();
+            
             await Task.Run(() =>
             {
-                foreach (var path in _setting.LibraryFolder)
-                {
-                    _songsSearcher.AddFolder(path);
-                    _songsSearcher.SearchFolder();
-                }
+                audios = searcher.SearchFolder(setting.LibraryDirectories);
             });
 
-            _artistList.Create(_songsSearcher.Song.ToList());
-            _albumList.Create(_songsSearcher.Song.ToList());
+            library.Create(audios.ToList());
 
-            try
+            var convAudios = new ObservableCollection<AudioDetailSerializable>();
+            foreach (var i in audios)
             {
-                var collection = new ObservableCollection<AudioSerialzerData>();
-                foreach (var song in _songsSearcher.Song)
-                {
-                    collection.Add(new AudioSerialzerData(song));
-                }
-
-                SongSerializer.Serialize(System.IO.Directory.GetCurrentDirectory() + "\\meta", collection);
+                convAudios.Add(new AudioDetailSerializable(i));
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            AudioSerializer.Serialize(System.IO.Directory.GetCurrentDirectory() + "\\meta", convAudios);
         }
     }
 }

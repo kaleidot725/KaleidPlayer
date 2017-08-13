@@ -8,7 +8,6 @@ using Prism.Mvvm;
 using System.IO;
 using System.Timers;
 using System.Collections.ObjectModel;
-using kaleidot725.Collection;
 
 namespace kaleidot725.Model
 {
@@ -18,27 +17,28 @@ namespace kaleidot725.Model
     public class Searcher : BindableBase
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public Searcher()
-        {
-        }
-
-        /// <summary>
         /// トラック検索
         /// </summary>
-        public ObservableCollection<IAudioDetail> SearchFolder(IList<string> directorys)
+        public ObservableCollection<IAudioDetail> SearchFolder(IList<string> directries)
         {
-            var songs = new ObservableCollection<IAudioDetail>();
+            if (directries == null) {
+                throw new ArgumentNullException();
+            }
 
-            foreach (var directory in directorys)
+            if (directries.Count == 0)
+            {
+                return new ObservableCollection<IAudioDetail>(); ;
+            }
+
+            var songs = new ObservableCollection<IAudioDetail>();
+            foreach (var directory in directries)
             {
                 List<string> fileList = Directory.GetFiles(directory, "*", System.IO.SearchOption.AllDirectories).ToList();
                 foreach (var file in fileList)
                 {
                     try
                     {
-                        var detail = GetAudioDetail(file);
+                        var detail = AudioDetailFactory.CreateAudioDetail(file);
                         detail.Parse();
                         songs.Add(detail);
                     }
@@ -50,28 +50,6 @@ namespace kaleidot725.Model
             }
 
             return songs;
-        }
-
-        /// <summary>
-        /// トラック詳細取得
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        private IAudioDetail GetAudioDetail(string filePath)
-        {
-            AudioTypes type = AudioFileParser.Parse(filePath);
-            switch (type)
-            {
-                case AudioTypes.Wave:
-                    return new AudioWaveDetail(filePath);
-                case AudioTypes.Mp3:
-                    return new AudioMp3Detail(filePath);
-                case AudioTypes.Flac:
-                    return new AudioFlacDetail(filePath);
-                default:
-                    var e = new Exception("Not Support Audio File");
-                    throw e;
-            }
         }
     }
 }

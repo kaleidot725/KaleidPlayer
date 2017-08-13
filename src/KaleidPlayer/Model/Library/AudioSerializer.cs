@@ -32,25 +32,7 @@ namespace kaleidot725.Model.Library
 
         public static IAudioDetail Convert(AudioDetailSerializable serial)
         {
-            IAudioDetail result;
-
-            AudioTypes type = AudioFileParser.Parse(serial.FilePath);
-            switch (type)
-            {
-                case AudioTypes.Wave:
-                    result = new AudioWaveDetail(serial.FilePath);
-                    break;
-                case AudioTypes.Mp3:
-                    result = new AudioMp3Detail(serial.FilePath);
-                    break;
-                case AudioTypes.Flac:
-                    result = new AudioFlacDetail(serial.FilePath);
-                    break;
-                default:
-                    var e = new Exception("Not Support Audio File");
-                    throw e;
-            }
-
+            IAudioDetail result = AudioDetailFactory.CreateAudioDetail(serial.FilePath);
             result.Title = serial.Title;
             result.Artist = serial.Artist;
             result.Album = serial.Album;
@@ -62,7 +44,6 @@ namespace kaleidot725.Model.Library
             result.Composer = serial.Composer;
             result.DiscNumber = serial.DiscNumber;
             result.FilePath = serial.FilePath;
-
             return result;
         }
     }

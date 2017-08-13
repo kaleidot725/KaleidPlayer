@@ -183,7 +183,7 @@ namespace kaleidot725.ViewModel
                 SeekMax = (int)TotalTime.TotalSeconds;
             }
 
-            if (player.PlaybackState == PlaybackState.Playing)
+            if (player.PlaybackState == PalybackTypes.Playing)
             {
                 IsPlay = true;
             }
@@ -192,8 +192,8 @@ namespace kaleidot725.ViewModel
                 IsPlay = false;
             }
 
-            if (player.PrePlaybackState == PlaybackState.Playing &&
-                player.PlaybackState == PlaybackState.Stopped )
+            if (player.PrePlaybackState == PalybackTypes.Playing &&
+                player.PlaybackState == PalybackTypes.Stopped )
             {
                 dispatcher.Invoke(new Action(() =>
                 {

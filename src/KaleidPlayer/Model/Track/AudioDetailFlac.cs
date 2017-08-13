@@ -106,25 +106,25 @@ namespace kaleidot725.Model
             }
         }
 
-        private string _title;          // タイトル
-        private string _artist;         // アーティスト
-        private string _album;          // アルバム
-        private string _date;           // 西暦
-        private string _trackNo;        // トラックNo
-        private string _genle;          // ジャンル
-        private string _comment;        // コメント
-        private string _albumArtist;    // アルバムアーティスト
-        private string _composer;       // 作曲者
-        private string _discnumber;     // ディスクナンバー
-        private string _filePath;       // ファイルパス
+        private string title;          // タイトル
+        private string artist;         // アーティスト
+        private string album;          // アルバム
+        private string date;           // 西暦
+        private string trackNo;        // トラックNo
+        private string genle;          // ジャンル
+        private string comment;        // コメント
+        private string albumArtist;    // アルバムアーティスト
+        private string composer;       // 作曲者
+        private string discnumber;     // ディスクナンバー
+        private string filepath;       // ファイルパス
 
         /// <summary>
         /// タイトル
         /// </summary>
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Artist
         {
-            get { return _artist; }
-            set { SetProperty(ref _artist, value); }
+            get { return artist; }
+            set { SetProperty(ref artist, value); }
         }
 
         /// <summary>
@@ -141,8 +141,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Album
         {
-            get { return _album; }
-            set { SetProperty(ref _album, value); }
+            get { return album; }
+            set { SetProperty(ref album, value); }
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Date
         {
-            get { return _date; }
-            set { SetProperty(ref _date, value); }
+            get { return date; }
+            set { SetProperty(ref date, value); }
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string TrackNo
         {
-            get { return _trackNo; }
-            set { SetProperty(ref _trackNo, value); }
+            get { return trackNo; }
+            set { SetProperty(ref trackNo, value); }
         }
 
         /// <summary>
@@ -168,8 +168,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Genle
         {
-            get { return _genle; }
-            set { SetProperty(ref _genle, value); }
+            get { return genle; }
+            set { SetProperty(ref genle, value); }
         }
 
         /// <summary>
@@ -177,8 +177,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Comment
         {
-            get { return _comment; }
-            set { SetProperty(ref _comment, value); }
+            get { return comment; }
+            set { SetProperty(ref comment, value); }
         }
 
         /// <summary>
@@ -186,8 +186,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string AlbumArtist
         {
-            get { return _albumArtist; }
-            set { SetProperty(ref _albumArtist, value); }
+            get { return albumArtist; }
+            set { SetProperty(ref albumArtist, value); }
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string Composer
         {
-            get { return _composer; }
-            set { SetProperty(ref _composer, value); }
+            get { return composer; }
+            set { SetProperty(ref composer, value); }
         }
 
         /// <summary>
@@ -204,8 +204,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string DiscNumber
         {
-            get { return _discnumber; }
-            set { SetProperty(ref _discnumber, value); }
+            get { return discnumber; }
+            set { SetProperty(ref discnumber, value); }
         }
 
         /// <summary>
@@ -213,8 +213,8 @@ namespace kaleidot725.Model
         /// </summary>
         public string FilePath
         {
-            get { return _filePath; }
-            set { SetProperty(ref _filePath, value); }
+            get { return filepath; }
+            set { SetProperty(ref filepath, value); }
         }
 
         /// <summary>

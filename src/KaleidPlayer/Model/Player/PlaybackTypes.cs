@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace kaleidot725.Model
 {
-    public enum PlaybackState
+    public enum PalybackTypes
     {
         Playing = NAudio.Wave.PlaybackState.Playing,
         Paused = NAudio.Wave.PlaybackState.Paused,

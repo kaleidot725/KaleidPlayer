@@ -20,6 +20,11 @@ namespace kaleidot725.ViewModel.Converter
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return "000";
+            }
+
             string str = (string)value;
             string ret = str.PadLeft(2, '0');
             return ret;

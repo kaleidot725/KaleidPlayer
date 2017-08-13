@@ -129,13 +129,15 @@
     <Compile Include="Model\Library\IAlbum.cs" />
     <Compile Include="Model\Library\IArtist.cs" />
     <Compile Include="Model\Library\AudioSerializer.cs" />
-    <Compile Include="Model\Player\PlaybackState.cs" />
+    <Compile Include="Model\Player\PlaybackTypes.cs" />
+    <Compile Include="Model\Common\WaveStreamFactory.cs" />
     <Compile Include="Model\Setting\Setting.cs" />
     <Compile Include="Model\Library\Album.cs" />
     <Compile Include="Model\Library\Artist.cs" />
     <Compile Include="Model\Library\AudioLibrary.cs" />
     <Compile Include="Model\Player\Playlist.cs" />
     <Compile Include="Model\SingletonModels.cs" />
+    <Compile Include="Model\Common\AudioDetailFactory.cs" />
     <Compile Include="Model\Track\AudioDetailFlac.cs" />
     <Compile Include="Model\Library\AudioSearcher.cs" />
     <Compile Include="Model\Track\AudioDetailMp3.cs" />
@@ -223,8 +225,6 @@
     </Compile>
     <Compile Include="Model\Common\AudioFileParser.cs" />
     <Compile Include="Model\Track\AudioDetailWave.cs" />
-    <Compile Include="Model\Collection\CollectionBasedDictionary.cs" />
-    <Compile Include="Model\Collection\ObservableDictionary.cs" />
     <Compile Include="Model\Track\VorbisComment.cs" />
     <Compile Include="ViewModel\AudioPlayerViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

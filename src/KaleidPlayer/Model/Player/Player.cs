@@ -17,7 +17,7 @@ namespace kaleidot725.Model
     /// </summary>
     public class Player : BindableBase, IDisposable
     {
-        private WaveStream audioStream;
+        private WaveStream stream;
         private WaveChannel32 volumeStream;
         private IWavePlayer waveout;
 
@@ -26,7 +26,7 @@ namespace kaleidot725.Model
         /// </summary>
         public TimeSpan CurrentTime
         {
-            get { return (audioStream != null) ? audioStream.CurrentTime : TimeSpan.FromSeconds(0); }
+            get { return (stream != null) ? stream.CurrentTime : TimeSpan.FromSeconds(0); }
         }
 
         /// <summary>
@@ -34,14 +34,14 @@ namespace kaleidot725.Model
         /// </summary>
         public TimeSpan TotalTime
         {
-            get { return (audioStream != null) ? audioStream.TotalTime : TimeSpan.FromSeconds(0); }
+            get { return (stream != null) ? stream.TotalTime : TimeSpan.FromSeconds(0); }
         }
 
         /// <summary>
         /// 前再生状態
         /// </summary>
-        private PlaybackState prePlaybackState;
-        public PlaybackState PrePlaybackState
+        private PalybackTypes prePlaybackState;
+        public PalybackTypes PrePlaybackState
         {
             get { return prePlaybackState; }
         }
@@ -49,8 +49,8 @@ namespace kaleidot725.Model
         /// <summary>
         /// 再生状態
         /// </summary>
-        private PlaybackState playbackState;
-        public PlaybackState PlaybackState
+        private PalybackTypes playbackState;
+        public PalybackTypes PlaybackState
         {
             get { return playbackState; }
             private set
@@ -75,14 +75,14 @@ namespace kaleidot725.Model
                 throw new FileNotFoundException(audio.FilePath);
             }
 
-            if (audioStream != null || waveout != null)
+            if (stream != null || waveout != null)
             {
                 this.Dispose();
             }
 
             this.InitializeStream(audio.FilePath);
             this.waveout.Play();
-            PlaybackState = PlaybackState.Playing;
+            PlaybackState = PalybackTypes.Playing;
         }
 
         /// <summary>
@@ -90,16 +90,16 @@ namespace kaleidot725.Model
         /// </summary>
         public void Replay()
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return;
             }
 
-            if (PlaybackState == PlaybackState.Paused ||
-                PlaybackState == PlaybackState.Stopped)
+            if (PlaybackState == PalybackTypes.Paused ||
+                PlaybackState == PalybackTypes.Stopped)
             {
                 this.waveout.Play();
-                PlaybackState = PlaybackState.Playing;
+                PlaybackState = PalybackTypes.Playing;
             }
         }
 
@@ -108,15 +108,15 @@ namespace kaleidot725.Model
         /// </summary>
         public void Pause()
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return;
             }
 
-            if (PlaybackState == PlaybackState.Playing)
+            if (PlaybackState == PalybackTypes.Playing)
             {
                 this.waveout.Pause();
-                PlaybackState = PlaybackState.Paused;
+                PlaybackState = PalybackTypes.Paused;
             }
         }
 
@@ -125,21 +125,21 @@ namespace kaleidot725.Model
         /// </summary>
         public void Stop()
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return;
             }
 
-            if (PlaybackState == PlaybackState.Playing ||
-                PlaybackState == PlaybackState.Paused)
+            if (PlaybackState == PalybackTypes.Playing ||
+                PlaybackState == PalybackTypes.Paused)
             {
                 this.waveout.Stop();
-                this.audioStream.Position = 0;
+                this.stream.Position = 0;
             }
 
             // 破棄する
             Dispose();
-            PlaybackState = PlaybackState.None;
+            PlaybackState = PalybackTypes.None;
         }
 
         /// <summary>
@@ -147,20 +147,20 @@ namespace kaleidot725.Model
         /// </summary>
         public void Seek(TimeSpan SeekTime)
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return;
             }
 
-            if (PlaybackState == PlaybackState.Playing)
+            if (PlaybackState == PalybackTypes.Playing)
             {
                 this.waveout.Pause();
             }
 
             var second = SeekTime.TotalSeconds;
-            audioStream.Position = (int)((double)audioStream.WaveFormat.AverageBytesPerSecond * second);
+            stream.Position = (int)((double)stream.WaveFormat.AverageBytesPerSecond * second);
             this.waveout.Play();
-            PlaybackState = PlaybackState.Playing;
+            PlaybackState = PalybackTypes.Playing;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace kaleidot725.Model
         /// <returns></returns>
         public float GetVolume()
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return 0;
             }
@@ -183,7 +183,7 @@ namespace kaleidot725.Model
         /// <param name="value"></param>
         public void SetVolume(float value)
         {
-            if (PlaybackState == PlaybackState.None)
+            if (PlaybackState == PalybackTypes.None)
             {
                 return;
             }
@@ -196,9 +196,9 @@ namespace kaleidot725.Model
         /// </summary>
         public void Dispose()
         {
-            if (audioStream != null)
+            if (stream != null)
             {
-                audioStream.Dispose();
+                stream.Dispose();
             }
 
             if (waveout != null)
@@ -207,7 +207,7 @@ namespace kaleidot725.Model
             }
 
             waveout = null;
-            audioStream = null;
+            stream = null;
         }
 
         /// <summary>
@@ -216,29 +216,11 @@ namespace kaleidot725.Model
         /// <param name="fileName"></param>
         private void InitializeStream(string fileName)
         {
-            WaveStream reader = null;
-
-            var type = AudioFileParser.Parse(fileName);
-            switch (type)
-            {
-                case AudioTypes.Wave:
-                    reader = new WaveFileReader(fileName);
-                    break;
-                case AudioTypes.Mp3:
-                    reader = new Mp3FileReader(fileName);
-                    break;
-                case AudioTypes.Flac:
-                    reader = new FlacReader(fileName);
-                    break;
-                default:
-                    throw new System.NotSupportedException();
-            }
-
-            audioStream = reader;
+            this.stream = WaveStreamFactory.CreateWaveStream(fileName);
             this.waveout = new WaveOut();
-            this.waveout.Init(this.audioStream);
+            this.waveout.Init(this.stream);
             this.waveout.PlaybackStopped += new EventHandler<StoppedEventArgs>(StoppedEvent);
-            PlaybackState = PlaybackState.Stopped;
+            this.PlaybackState = PalybackTypes.Stopped;
         }
 
         /// <summary>
@@ -248,8 +230,8 @@ namespace kaleidot725.Model
         /// <param name="args"></param>
         private void StoppedEvent(object sender, StoppedEventArgs args)
         {
-            PlaybackState = PlaybackState.Stopped;
-            audioStream.Position = 0;
+            PlaybackState = PalybackTypes.Stopped;
+            stream.Position = 0;
         }
     }
 }

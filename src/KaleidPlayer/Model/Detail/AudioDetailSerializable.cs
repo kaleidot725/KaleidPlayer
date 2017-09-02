@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace kaleidot725.Model
 {
     [Serializable]
-    public class AudioDetailSerializable
+    public class AudioDetailSerializable : IAudioDetail
     {
         /// <summary>
         /// タイトル

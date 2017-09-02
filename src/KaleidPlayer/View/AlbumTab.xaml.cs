@@ -21,20 +21,20 @@ namespace kaleidot725.View
     /// </summary>
     public partial class AlbumTab : Page
     {
-        private List<object> _pageList = new List<object>() { new AlbumsPanelView(), new AudioPanelView() };
-        private NavigationService _navi;
-        private pageIndex _currentIndex = pageIndex.ALBUM_PANEL_VIEW;
+        private List<object> pageList = new List<object>() { new AlbumsPanelView(), new AudioPanelView() };
+        private NavigationService navi;
+        private pageIndex currentIndex = pageIndex.AlbumPanelView;
 
         private enum pageIndex
         {
-            ALBUM_PANEL_VIEW = 0,       // アルバム一覧
-            AUDIO_PANEL_VIEW = 1       // オーディオ一覧
+            AlbumPanelView = 0,      // アルバム一覧
+            AudioPanelView = 1       // オーディオ一覧
         }
 
         public AlbumTab()
         {
             InitializeComponent();
-            _navi = this.myFrame.NavigationService;
+            navi = this.myFrame.NavigationService;
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace kaleidot725.View
         /// </summary>
         public void InitPage()
         {
-            _currentIndex = pageIndex.ALBUM_PANEL_VIEW;
-            _navi.Navigate(_pageList[(int)_currentIndex]);
+            currentIndex = pageIndex.AlbumPanelView;
+            navi.Navigate(pageList[(int)currentIndex]);
         }
 
         /// <summary>
@@ -53,12 +53,12 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (Page item in _pageList)
+            foreach (Page item in pageList)
             {
                 item.DataContext = this.DataContext;
             }
 
-            _navi.Navigate(_pageList[(int)pageIndex.ALBUM_PANEL_VIEW]);
+            navi.Navigate(pageList[(int)pageIndex.AlbumPanelView]);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (_currentIndex <= 0)
+            if (currentIndex <= 0)
             {
                 this.backwardButton.Visibility = System.Windows.Visibility.Hidden;
             }
@@ -82,33 +82,33 @@ namespace kaleidot725.View
 
         private void myFrame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_navi.CanGoForward)
+            if (navi.CanGoForward)
             {
-                _navi.GoForward();
+                navi.GoForward();
             }
             else
             {
-                if (isForwardable(_currentIndex))
+                if (isForwardable(currentIndex))
                 {
-                    _currentIndex++;
-                    _navi.Navigate(_pageList[(int)_currentIndex]);
+                    currentIndex++;
+                    navi.Navigate(pageList[(int)currentIndex]);
                 }
             }
         }
 
         private void backwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_navi.CanGoForward)
+            if (navi.CanGoForward)
             {
-                _navi.GoForward();
+                navi.GoForward();
             }
             else
             {
-                if (isBackwardable(_currentIndex))
+                if (isBackwardable(currentIndex))
                 {
-                    initSelectedItem(_currentIndex);
-                    _currentIndex--;
-                    _navi.Navigate(_pageList[(int)_currentIndex]);
+                    initSelectedItem(currentIndex);
+                    currentIndex--;
+                    navi.Navigate(pageList[(int)currentIndex]);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace kaleidot725.View
         {
             var vm = (AlbumTabViewModel)this.DataContext;
 
-            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            if (currentIndex == pageIndex.AlbumPanelView)
             {
                 if (vm.SeletedAlbum != null)
                 {
@@ -129,7 +129,7 @@ namespace kaleidot725.View
                 }
             }
 
-            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            if (currentIndex == pageIndex.AudioPanelView)
             {
                 if (vm.SeletedAlbum != null)
                 {
@@ -147,7 +147,7 @@ namespace kaleidot725.View
         /// <returns></returns>
         private bool isBackwardable(pageIndex currentIndex)
         {
-            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            if (currentIndex == pageIndex.AlbumPanelView)
             {
                 return false;
             }
@@ -162,7 +162,7 @@ namespace kaleidot725.View
         {
             var vm = (AlbumTabViewModel)this.DataContext;
 
-            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            if (currentIndex == pageIndex.AudioPanelView)
             {
                 vm.SeletedAlbum = null;
             }

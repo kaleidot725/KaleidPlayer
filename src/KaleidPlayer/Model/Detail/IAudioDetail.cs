@@ -19,7 +19,5 @@ namespace kaleidot725.Model
         string Composer { get; set; }
         string DiscNumber { get; set; }
         string FilePath { get; set; }
-
-        void Parse();
     }
 }

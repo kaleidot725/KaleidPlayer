@@ -12,7 +12,7 @@ namespace kaleidot725.Model
     {
         public static WaveStream CreateWaveStream(string filePath)
         {
-            var type = AudioFileParser.Parse(filePath);
+            var type = AudioParser.GetTypes(filePath);
             switch (type)
             {
                 case AudioTypes.Wave:

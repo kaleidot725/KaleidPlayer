@@ -22,11 +22,11 @@ namespace kaleidot725
     /// </summary>
     public partial class MainWindow : MahApps.Metro.Controls.MetroWindow
     {
-        private NavigationService _navi;
-        private ArtistTab _artistTab = new ArtistTab();
-        private AlbumTab _albumTab = new AlbumTab();
-        private SongTab _songTab = new SongTab();
-        private SettingTab _settingTab = new SettingTab();
+        private NavigationService navi;
+        private ArtistTab artistTab = new ArtistTab();
+        private AlbumTab albumTab = new AlbumTab();
+        private SongTab songTab = new SongTab();
+        private SettingTab settingTab = new SettingTab();
 
         /// <summary>
         /// コンストラクタ
@@ -34,7 +34,7 @@ namespace kaleidot725
         public MainWindow()
         {
             InitializeComponent();
-            _navi = myFrame.NavigationService;
+            navi = myFrame.NavigationService;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace kaleidot725
             AlbumBorder.Visibility = Visibility.Hidden;
             SongBorder.Visibility = Visibility.Hidden;
             SettingBorder.Visibility = Visibility.Hidden;
-            _navi.Navigate(_artistTab);
+            navi.Navigate(artistTab);
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace kaleidot725
             SongBorder.Visibility = Visibility.Hidden;
             SettingBorder.Visibility = Visibility.Hidden;
 
-            _artistTab.InitPage();
-            _navi.Navigate(_artistTab);
+            artistTab.InitPage();
+            navi.Navigate(artistTab);
         }
 
         /// <summary>
@@ -89,8 +89,8 @@ namespace kaleidot725
             SongBorder.Visibility = Visibility.Hidden;
             SettingBorder.Visibility = Visibility.Hidden;
 
-            _albumTab.InitPage();
-            _navi.Navigate(_albumTab);
+            albumTab.InitPage();
+            navi.Navigate(albumTab);
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace kaleidot725
             SongBorder.Visibility = Visibility.Visible;
             SettingBorder.Visibility = Visibility.Hidden;
 
-            _songTab.InitPage();
-            _navi.Navigate(_songTab);
+            songTab.InitPage();
+            navi.Navigate(songTab);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace kaleidot725
             SongBorder.Visibility = Visibility.Hidden;
             SettingBorder.Visibility = Visibility.Visible;
 
-            _navi.Navigate(_settingTab);
+            navi.Navigate(settingTab);
         }
     }
 }

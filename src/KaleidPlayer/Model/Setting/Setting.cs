@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace kaleidot725.Model
 {
-    public class Setting :BindableBase
+    public class Setting : BindableBase
     {
         private ObservableCollection<string> libraryDirectories;
         public ObservableCollection<string> LibraryDirectories

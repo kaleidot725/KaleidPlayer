@@ -38,8 +38,7 @@ namespace kaleidot725.Model
                 {
                     try
                     {
-                        var detail = AudioDetailFactory.CreateAudioDetail(file);
-                        detail.Parse();
+                        var detail = AudioParser.GetDetail(file);
                         songs.Add(detail);
                     }
                     catch (Exception e)

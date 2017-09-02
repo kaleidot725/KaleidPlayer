@@ -32,7 +32,7 @@ namespace kaleidot725.Model.Library
 
         public static IAudioDetail Convert(AudioDetailSerializable serial)
         {
-            IAudioDetail result = AudioDetailFactory.CreateAudioDetail(serial.FilePath);
+            IAudioDetail result = AudioParser.GetDetail(serial.FilePath);
             result.Title = serial.Title;
             result.Artist = serial.Artist;
             result.Album = serial.Album;

@@ -21,18 +21,18 @@ namespace kaleidot725.View
     /// </summary>
     public partial class ArtistTab : Page
     {
-        private List<object> _pageList = new List<object>() { new ArtistPanelView(), new AlbumPanelView(), new AudioPanelView() };
-        private NavigationService _navi;
-        private pageIndex _currentIndex = pageIndex.ARITST_PANEL_VIEW;
+        private List<object> pageList = new List<object>() { new ArtistPanelView(), new AlbumPanelView(), new AudioPanelView() };
+        private NavigationService navi;
+        private pageIndex curentIndex = pageIndex.ArtistPanelView;
 
         /// <summary>
         /// ページインデックス
         /// </summary>
         private enum pageIndex
         {
-            ARITST_PANEL_VIEW = 0,      // アーティスト一覧
-            ALBUM_PANEL_VIEW = 1,       // アルバム一覧
-            AUDIO_PANEL_VIEW = 2        // オーディオ一覧
+            ArtistPanelView = 0,      // アーティスト一覧
+            AlbumPanelView = 1,       // アルバム一覧
+            AudioPanelView = 2        // オーディオ一覧
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace kaleidot725.View
         public ArtistTab()
         {
             InitializeComponent();
-            _navi = this.myFrame.NavigationService;
+            navi = this.myFrame.NavigationService;
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace kaleidot725.View
         /// </summary>
         public void InitPage()
         {
-            _currentIndex = pageIndex.ARITST_PANEL_VIEW;
-            _navi.Navigate(_pageList[(int)_currentIndex]);
+            curentIndex = pageIndex.ArtistPanelView;
+            navi.Navigate(pageList[(int)curentIndex]);
         }
 
         /// <summary>
@@ -60,12 +60,12 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (Page item in _pageList)
+            foreach (Page item in pageList)
             {
                 item.DataContext = this.DataContext;
             }
 
-            _navi.Navigate(_pageList[(int)pageIndex.ARITST_PANEL_VIEW]);
+            navi.Navigate(pageList[(int)pageIndex.ArtistPanelView]);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (isBackwardable(_currentIndex))
+            if (isBackwardable(curentIndex))
             {
                 this.backwardButton.Visibility = System.Windows.Visibility.Visible;
             }
@@ -94,16 +94,16 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_navi.CanGoForward)
+            if (navi.CanGoForward)
             {
-                _navi.GoForward();
+                navi.GoForward();
             }
             else
             {
-                if (isForwardable(_currentIndex))
+                if (isForwardable(curentIndex))
                 {
-                    _currentIndex++;
-                    _navi.Navigate(_pageList[(int)_currentIndex]);
+                    curentIndex++;
+                    navi.Navigate(pageList[(int)curentIndex]);
                 }
             }
         }
@@ -115,17 +115,17 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void backwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_navi.CanGoForward)
+            if (navi.CanGoForward)
             {
-                _navi.GoForward();
+                navi.GoForward();
             }
             else
             {
-                if (isBackwardable(_currentIndex))
+                if (isBackwardable(curentIndex))
                 {
-                    initSelectedItem(_currentIndex);
-                    _currentIndex--;
-                    _navi.Navigate(_pageList[(int)_currentIndex]);
+                    initSelectedItem(curentIndex);
+                    curentIndex--;
+                    navi.Navigate(pageList[(int)curentIndex]);
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace kaleidot725.View
         {
             var vm = (ArtistTabViewModel)this.DataContext;
 
-            if (currentIndex == pageIndex.ARITST_PANEL_VIEW)
+            if (currentIndex == pageIndex.ArtistPanelView)
             {
                 if (vm.SelectedArtist != null)
                 {
@@ -147,7 +147,7 @@ namespace kaleidot725.View
                 }
             }
 
-            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            if (currentIndex == pageIndex.AlbumPanelView)
             {
                 if (vm.SelectedArtist != null && vm.SeletedAlbum != null)
                 {
@@ -155,7 +155,7 @@ namespace kaleidot725.View
                 }
             }
 
-            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            if (currentIndex == pageIndex.AudioPanelView)
             {
                 if (vm.SelectedArtist != null && vm.SeletedAlbum != null)
                 {
@@ -173,7 +173,7 @@ namespace kaleidot725.View
         /// <returns></returns>
         private bool isBackwardable(pageIndex currentIndex)
         {
-            if (currentIndex == pageIndex.ARITST_PANEL_VIEW)
+            if (currentIndex == pageIndex.ArtistPanelView)
             {
                 return false;
             }
@@ -188,17 +188,17 @@ namespace kaleidot725.View
         {
             var vm = (ArtistTabViewModel)this.DataContext;
 
-            if (currentIndex == pageIndex.ARITST_PANEL_VIEW)
+            if (currentIndex == pageIndex.ArtistPanelView)
             {
                 return;
             }
 
-            if (currentIndex == pageIndex.ALBUM_PANEL_VIEW)
+            if (currentIndex == pageIndex.AlbumPanelView)
             {
                 vm.SelectedArtist = null;
             }
 
-            if (currentIndex == pageIndex.AUDIO_PANEL_VIEW)
+            if (currentIndex == pageIndex.AudioPanelView)
             {
                 vm.SeletedAlbum = null;
             }

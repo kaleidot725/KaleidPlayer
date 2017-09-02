@@ -20,13 +20,13 @@ namespace kaleidot725.View
     /// </summary>
     public partial class SongTab : Page
     {
-        private NavigationService _navi;
-        private AudiosPanelView _audiosPanelView = new AudiosPanelView();
+        private NavigationService navi;
+        private AudiosPanelView audioPanelView = new AudiosPanelView();
 
         public SongTab()
         {
             InitializeComponent();
-            _navi = this.myFrame.NavigationService;
+            navi = this.myFrame.NavigationService;
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace kaleidot725.View
         /// <param name="e"></param>
         private void myFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            _audiosPanelView.DataContext = this.DataContext;
-            _navi.Navigate(_audiosPanelView);
+            audioPanelView.DataContext = this.DataContext;
+            navi.Navigate(audioPanelView);
         }
     }
 }

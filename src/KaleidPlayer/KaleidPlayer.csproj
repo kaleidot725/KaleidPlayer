@@ -125,10 +125,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Common\AudioTypes.cs" />
-    <Compile Include="Model\IAudioDetail.cs" />
+    <Compile Include="Model\Detail\IAudioDetail.cs" />
+    <Compile Include="Model\Parser\IAudioParser.cs" />
     <Compile Include="Model\Library\IAlbum.cs" />
     <Compile Include="Model\Library\IArtist.cs" />
     <Compile Include="Model\Library\AudioSerializer.cs" />
+    <Compile Include="Model\Parser\FlacMetaData.cs" />
+    <Compile Include="Model\Parser\FlacMetaType.cs" />
     <Compile Include="Model\Player\PlaybackTypes.cs" />
     <Compile Include="Model\Common\WaveStreamFactory.cs" />
     <Compile Include="Model\Setting\Setting.cs" />
@@ -136,14 +139,14 @@
     <Compile Include="Model\Library\Artist.cs" />
     <Compile Include="Model\Library\AudioLibrary.cs" />
     <Compile Include="Model\Player\Playlist.cs" />
-    <Compile Include="Model\SingletonModels.cs" />
-    <Compile Include="Model\Common\AudioDetailFactory.cs" />
-    <Compile Include="Model\Track\AudioDetailFlac.cs" />
+    <Compile Include="Model\Parser\SingletonModels.cs" />
+    <Compile Include="Model\Detail\AudioDetail.cs" />
+    <Compile Include="Model\Parser\FlacParser.cs" />
     <Compile Include="Model\Library\AudioSearcher.cs" />
-    <Compile Include="Model\Track\AudioDetailMp3.cs" />
+    <Compile Include="Model\Parser\Mp3Parser.cs" />
     <Compile Include="Model\Player\Player.cs" />
-    <Compile Include="Model\Track\AudioDetailNull.cs" />
-    <Compile Include="Model\Track\AudioDetailSerializable.cs" />
+    <Compile Include="Model\Detail\AudioDetailNull.cs" />
+    <Compile Include="Model\Detail\AudioDetailSerializable.cs" />
     <Compile Include="ViewModel\AlbumTabViewModel.cs" />
     <Compile Include="ViewModel\ArtistTabViewModel.cs" />
     <Compile Include="ViewModel\Converter\AutoEnumerator.cs" />
@@ -223,9 +226,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Common\AudioFileParser.cs" />
-    <Compile Include="Model\Track\AudioDetailWave.cs" />
-    <Compile Include="Model\Track\VorbisComment.cs" />
+    <Compile Include="Model\Parser\AudioParser.cs" />
+    <Compile Include="Model\Parser\WaveParser.cs" />
+    <Compile Include="Model\Parser\VorbisParser.cs" />
     <Compile Include="ViewModel\AudioPlayerViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

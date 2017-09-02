@@ -1,13 +1,9 @@
 # KaleidPlayer
 
-# Detail
-C# WPF Music Player
+C# WPF Music Player  
+Support Audio Type   
+- flac
+- mp3
+- wave
 
 ![KaleidPlayer](doc/KaleidPlayer.PNG)
-# Support Audio Type
-
-| Type |
-| ---- |
-| flac |
-| mp3  |
-| wave |

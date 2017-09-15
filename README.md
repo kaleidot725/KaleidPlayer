@@ -1,9 +1,21 @@
 # KaleidPlayer
 
-C# WPF Music Player  
-Support Audio Type   
-- flac
-- mp3
-- wave
+## 目的
+C# WPFの練習として音楽プレイヤーを作成  
+またオブジェクト指向プログラミングを理解するために作成
+
+## 対応するファイル形式
+本プレイヤーでは以下のファイル形式に対応  
+ファイル形式は自分が最も使う形式を選択して採用
+
+| ファイル形式 |
+| ----------- |
+| flac |
+| mp3 |
+| wave |
+
+## ユーザインタフェース
+世の中に溢れかえっている、スマートフォンアプリケーションのUIを採用
+
 
 ![KaleidPlayer](doc/KaleidPlayer.PNG)
